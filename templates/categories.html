@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'delicious/profilepage.css' %}" media="screen">
+    <link rel="stylesheet" href="{% static 'delicious/categories.css' %}" media="screen">
+    <script class="u-script" type="text/javascript" src="{% static 'delicious/jquery.js' %}" defer=""></script>
+    <script class="u-script" type="text/javascript" src="{% static 'delicious/nicepage.js' %}" defer=""></script>
+
+{% endblock %}
+
+{% block content %}
+    <section class="u-align-center u-black u-clearfix u-section-1" id="carousel_5e71">
+        <img class="u-expand-resize u-expanded-width u-image u-image-1"
+             src="{% static 'delicious/images/categories.jpg' %}" alt="">
+        <div class="u-list u-list-1">
+            <div class="u-repeater u-repeater-1">
+                {% for _, category in categories %}
+                    <div class="u-align-left u-container-style u-list-item u-palette-5-dark-3 u-repeater-item u-shape-rectangle u-list-item-1">
+                        <div class="u-container-layout u-similar-container u-valign-top u-container-layout-1">
+                            <div class="u-align-center u-container-style u-group u-opacity u-opacity-45 u-palette-5-dark-1 u-radius-50 u-shape-round u-group-1">
+                                <div class="u-container-layout u-valign-middle u-container-layout-2">
+                                    <h1 class="u-custom-font u-text u-text-1"></h1>
+                                </div>
+                            </div>
+                            <h5 class="u-text u-text-body-alt-color u-text-2">{{ category }}</h5>
+                            <p class="u-text u-text-grey-30 u-text-3"></p>
+                            <p class="u-text u-text-grey-30 u-text-3"></p>
+                            <p class="u-text u-text-grey-30 u-text-3"></p>
+                            {% if category == 'Breakfast' %}
+                                <a href="{% url 'breakfast' %}"
+                                   class="u-active-none u-border-2 u-border-active-white u-border-hover-white u-border-white u-btn u-button-style u-hover-none u-none u-text-body-alt-color u-text-hover-grey-30 u-btn-1">learn
+                                    more</a>
+                            {% elif category == "Lunch" %}
+                                <a href="{% url 'lunch' %}"
+                                   class="u-active-none u-border-2 u-border-active-white u-border-hover-white u-border-white u-btn u-button-style u-hover-none u-none u-text-body-alt-color u-text-hover-grey-30 u-btn-1">learn
+                                    more</a>
+                            {% elif category == "Dinner" %}
+                                <a href="{% url 'dinner' %}"
+                                   class="u-active-none u-border-2 u-border-active-white u-border-hover-white u-border-white u-btn u-button-style u-hover-none u-none u-text-body-alt-color u-text-hover-grey-30 u-btn-1">learn
+                                    more</a>
+                            {% elif category == "Dessert" %}
+                                <a href="{% url 'dessert' %}"
+                                   class="u-active-none u-border-2 u-border-active-white u-border-hover-white u-border-white u-btn u-button-style u-hover-none u-none u-text-body-alt-color u-text-hover-grey-30 u-btn-1">learn
+                                    more</a>
+                            {% elif category == "Appetizers" %}
+                                <a href="{% url 'appetizers' %}"
+                                   class="u-active-none u-border-2 u-border-active-white u-border-hover-white u-border-white u-btn u-button-style u-hover-none u-none u-text-body-alt-color u-text-hover-grey-30 u-btn-1">learn
+                                    more</a>
+                            {% elif category == "Drinks" %}
+                                <a href="{% url 'drinks' %}"
+                                   class="u-active-none u-border-2 u-border-active-white u-border-hover-white u-border-white u-btn u-button-style u-hover-none u-none u-text-body-alt-color u-text-hover-grey-30 u-btn-1">learn
+                                    more</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </section>
+    <style class="u-overlap-style">{
+        background-color: #f8f8f6 !important
+    }</style>
+
+{% endblock %}
