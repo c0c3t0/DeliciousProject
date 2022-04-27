@@ -1,5 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView, ListView
 
 from delicious_project.delicious.forms import CreateRecipeForm, EditRecipeForm, DeleteRecipeForm
@@ -53,14 +55,14 @@ class DetailRecipeView(DetailView):
     template_name = 'delicious/recipe_details.html'
     context_object_name = 'recipe'
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['is_owner'] = self.object.user == self.request.user
-    #     estates = list(Estate.objects.filter(user_id=self.object.user_id))
-    #     context.update({
-    #         'estates': estates,
-    #     })
-    #     return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+
+        context['is_owner'] = self.object.user == self.request.user
+        context['is anonymous'] = not self.request.user.is_authenticated
+
+        return context
 
 
 class DeleteRecipeView(LoginRequiredMixin, CreateView, DeleteView):
@@ -68,3 +70,14 @@ class DeleteRecipeView(LoginRequiredMixin, CreateView, DeleteView):
     form_class = DeleteRecipeForm
     template_name = 'delicious/recipe_delete.html'
     success_url = reverse_lazy('home')
+
+def cooked_recipe(request, pk):
+    recipe = Recipe.objects.get(pk=pk)
+    recipe = get_object_or_404(Recipe, id=recipe.pk)
+
+    if request.user in recipe.cooked.all():
+        recipe.cooked.remove(request.user)
+    else:
+        recipe.cooked.add(request.user)
+
+    return HttpResponseRedirect(reverse('details recipe', args=[str(pk)]))

@@ -63,6 +63,9 @@ class Recipe(models.Model):
         on_delete=models.CASCADE,
     )
 
+    class Meta:
+        ordering = ('-publication_date',)
+
     def __str__(self):
         return self.title
 

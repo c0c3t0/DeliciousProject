@@ -1,11 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block head %}
     <link rel="stylesheet" href="{% static 'delicious/profilepage.css' %}" media="screen">
     <link rel="stylesheet" href="{% static 'delicious/categories.css' %}" media="screen">
-    <script class="u-script" type="text/javascript" src="{% static 'delicious/jquery.js' %}" defer=""></script>
-    <script class="u-script" type="text/javascript" src="{% static 'delicious/nicepage.js' %}" defer=""></script>
-
 {% endblock %}
 
 {% block content %}
@@ -28,38 +26,38 @@
                             <p class="u-text u-text-grey-30 u-text-3"></p>
                             {% if category == 'Breakfast' %}
                                 <a href="{% url 'breakfast' %}"
-                                   class="u-active-none u-border-2 u-border-active-white u-border-hover-white u-border-white u-btn u-button-style u-hover-none u-none u-text-body-alt-color u-text-hover-grey-30 u-btn-1">learn
-                                    more</a>
+                                   class="u-active-none u-border-2 u-border-active-white u-border-hover-white
+                                   u-border-white u-btn u-button-style u-hover-none u-none u-text-body-alt-color u-text-hover-grey-30 u-btn-1">
+                                    Show recipes</a>
                             {% elif category == "Lunch" %}
                                 <a href="{% url 'lunch' %}"
-                                   class="u-active-none u-border-2 u-border-active-white u-border-hover-white u-border-white u-btn u-button-style u-hover-none u-none u-text-body-alt-color u-text-hover-grey-30 u-btn-1">learn
-                                    more</a>
+                                   class="u-active-none u-border-2 u-border-active-white u-border-hover-white
+                                   u-border-white u-btn u-button-style u-hover-none u-none u-text-body-alt-color u-text-hover-grey-30 u-btn-1">
+                                    Show recipes</a>
                             {% elif category == "Dinner" %}
                                 <a href="{% url 'dinner' %}"
-                                   class="u-active-none u-border-2 u-border-active-white u-border-hover-white u-border-white u-btn u-button-style u-hover-none u-none u-text-body-alt-color u-text-hover-grey-30 u-btn-1">learn
-                                    more</a>
+                                   class="u-active-none u-border-2 u-border-active-white u-border-hover-white
+                                   u-border-white u-btn u-button-style u-hover-none u-none u-text-body-alt-color u-text-hover-grey-30 u-btn-1">
+                                    Show recipes</a>
                             {% elif category == "Dessert" %}
                                 <a href="{% url 'dessert' %}"
-                                   class="u-active-none u-border-2 u-border-active-white u-border-hover-white u-border-white u-btn u-button-style u-hover-none u-none u-text-body-alt-color u-text-hover-grey-30 u-btn-1">learn
-                                    more</a>
+                                   class="u-active-none u-border-2 u-border-active-white u-border-hover-white
+                                   u-border-white u-btn u-button-style u-hover-none u-none u-text-body-alt-color u-text-hover-grey-30 u-btn-1">
+                                    Show recipes</a>
                             {% elif category == "Appetizers" %}
                                 <a href="{% url 'appetizers' %}"
-                                   class="u-active-none u-border-2 u-border-active-white u-border-hover-white u-border-white u-btn u-button-style u-hover-none u-none u-text-body-alt-color u-text-hover-grey-30 u-btn-1">learn
-                                    more</a>
+                                   class="u-active-none u-border-2 u-border-active-white u-border-hover-white
+                                   u-border-white u-btn u-button-style u-hover-none u-none u-text-body-alt-color u-text-hover-grey-30 u-btn-1">
+                                    Show recipes</a>
                             {% elif category == "Drinks" %}
                                 <a href="{% url 'drinks' %}"
-                                   class="u-active-none u-border-2 u-border-active-white u-border-hover-white u-border-white u-btn u-button-style u-hover-none u-none u-text-body-alt-color u-text-hover-grey-30 u-btn-1">learn
-                                    more</a>
+                                   class="u-active-none u-border-2 u-border-active-white u-border-hover-white
+                                   u-border-white u-btn u-button-style u-hover-none u-none u-text-body-alt-color u-text-hover-grey-30 u-btn-1">
+                                    Show recipes</a>
                             {% endif %}
                         </div>
                     </div>
                 {% endfor %}
             </div>
         </div>
-
-    </section>
-    <style class="u-overlap-style">{
-        background-color: #f8f8f6 !important
-    }</style>
-
 {% endblock %}

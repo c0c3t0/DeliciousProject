@@ -7,6 +7,7 @@ from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from delicious_project.accounts.forms import RegisterForm, LoginForm, ChangePasswordForm, EditProfileForm, \
     ProfileDeleteForm
 from delicious_project.accounts.models import Profile
+from delicious_project.delicious.models import Recipe
 
 UserModel = get_user_model()
 
@@ -40,6 +41,25 @@ class ProfileDetailsView(DetailView):
     template_name = 'accounts/profile_details.html'
     context_object_name = 'profile'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        all_recipes = Recipe.objects.filter(cooked=True)
+        total_user_cooks = sum(recipe.cooked_counter for recipe in all_recipes)
+
+        user_recipes = Recipe.objects.filter(user_id=self.request.user)
+        user_recipes_counter = len(user_recipes)
+        user_recipes_total_cooks= sum(recipe.cooked_counter for recipe in user_recipes)
+
+        context.update({
+            'total_user_cooks':total_user_cooks,
+            'user_recipes_counter': user_recipes_counter,
+            'user_recipes_total_cooks': user_recipes_total_cooks,
+            'is_owner':self.object.user == self.request.user,
+            'is_anonymous': not self.request.user.is_authenticated,
+        })
+
+        return context
     # full name, photo, age, gender, recipes counter, cooked counter
 
 
