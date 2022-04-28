@@ -62,6 +62,8 @@ class Profile(models.Model):
     gender = models.CharField(
         max_length=max(len(x) for x, _ in GENDERS),
         choices=GENDERS,
+        null=True,
+        blank=True,
     )
 
     picture = models.URLField(

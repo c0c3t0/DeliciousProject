@@ -8,17 +8,18 @@ UserModel = get_user_model()
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name')
+    list_display = ('first_name', 'last_name',)
 
 
 @admin.register(UserModel)
 class CustomUserAdmin(UserAdmin):
-    model = DeliciousAppUser
-    list_display = ('email', 'is_staff',)
-    list_filter = ('email', 'is_staff',)
+    model = UserModel
+
+    list_display = ('email', 'is_staff', 'is_superuser',)
+    list_filter = ('is_staff', 'is_superuser')
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        ('Permissions', {'fields': ('is_staff',)}),
+        ('Permissions', {'fields': ('is_staff', 'is_superuser', 'groups')}),
     )
     add_fieldsets = (
         (None, {
@@ -27,4 +28,4 @@ class CustomUserAdmin(UserAdmin):
         ),
     )
     search_fields = ('email',)
-    ordering = ('email',)
+    ordering = ('is_superuser', 'is_staff')

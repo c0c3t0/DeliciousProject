@@ -1,6 +1,5 @@
 from django.views.generic import TemplateView, ListView
 
-# from delicious_project.delicious.models import Category
 from delicious_project.delicious.models import Recipe
 
 

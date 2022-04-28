@@ -8,7 +8,7 @@ from delicious_project.delicious.forms import CreateRecipeForm, EditRecipeForm, 
 from delicious_project.delicious.models import Recipe
 
 
-class UserRecipesView(ListView):
+class UserRecipesView(LoginRequiredMixin, ListView):
     model = Recipe
     template_name = 'delicious/user_recipes.html'
 
@@ -58,7 +58,6 @@ class DetailRecipeView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
 
         context['is_owner'] = self.object.user == self.request.user
         context['is_anonymous'] = not self.request.user.is_authenticated
