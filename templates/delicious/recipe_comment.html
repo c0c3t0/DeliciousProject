@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load calculate_years %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'delicious/profilepage.css' %}" media="screen">
+    <link rel="stylesheet" href="{% static 'delicious/recipe_details.css' %}" media="screen">
+{% endblock %}
+
+{% block content %}
+    <section class="u-clearfix u-palette-5-dark-3 u-section-1" id="carousel_ce76">
+        <div class="u-clearfix u-sheet u-sheet-1">
+            <div class="u-clearfix u-expanded-width u-gutter-30 u-layout-wrap u-layout-wrap-1">
+                <div class="u-layout">
+                    <div class="col-md-10 offset-md-1 col-lg-10 offset-lg-1">
+                        <div class="title-box-d">
+                            <h5 class="title-d">Comments ({{ comments_count }})</h5>
+                        </div>
+                    <div class="items-container">
+                                    {% if request.user.is_authenticated %}
+                                        <div class="box">
+                                            <form method="post" action="{% url 'add comment' recipe.pk %}">
+                                                {#                                                <textarea></textarea>#}
+                                                {% csrf_token %}
+                                                {{ form }}
+                                                <button style="margin-top:8px; margin-bottom:8px"
+                                                        class="btn btn-b btn-sm"
+                                                        type="submit">Comment
+                                                </button>
+                                            </form>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                        <div class="box-comments">
+                            <ul class="list-comments">
+                                {% if comments %}
+                                    {% for comment in comments %}
+                                        <li>
+                                            <div class="comment-details">
+                                                <h5 class="comment-author"><b>Comment by:</b> {{ comment.user }}</h5>
+                                                <span><b>Published on:</b> {{ comment.published_on }}</span>
+                                                <p class="comment-description">"{{ comment.text }}"
+                                                </p>
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                                {% endif %}
+
+                        </div>
+                        </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+{% endblock %}

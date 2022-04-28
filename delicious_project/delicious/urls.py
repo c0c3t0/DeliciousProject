@@ -2,6 +2,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 
+from delicious_project.delicious.views.comments import AddCommentView
 from delicious_project.delicious.views.generic import HomeView, ShowAllRecipesView, ShowCategoryView, \
     ShowBreakfastRecipesView, ShowDrinksRecipesView, ShowLunchRecipesView, ShowDinnerRecipesView, \
     ShowDessertRecipesView, ShowAppetizersRecipesView
@@ -26,5 +27,7 @@ urlpatterns = [
                   path('details/<int:pk>/', DetailRecipeView.as_view(), name='details recipe'),
                   path('delete/<int:pk>/', DeleteRecipeView.as_view(), name='delete recipe'),
                   path('photo/cooked/<int:pk>', cooked_recipe, name='cooked'),
+
+                  path('comment/<int:pk>/', AddCommentView.as_view(), name='add comment')
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

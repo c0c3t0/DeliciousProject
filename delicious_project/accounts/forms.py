@@ -9,6 +9,7 @@ from django.forms import EmailField
 
 from delicious_project.accounts.models import Profile, DeliciousAppUser
 from delicious_project.common.helpers import DisabledFieldsFormMixin
+from delicious_project.delicious.models import Comment
 
 
 def yesterday():
@@ -95,13 +96,8 @@ class RegisterForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # self.fields['email'].label = ""
         self.fields['password1'].label = "Password"
         self.fields['password2'].label = "Repeat password"
-        # self.fields['first_name'].label = ""
-        # self.fields['last_name'].label = ""
-        # self.fields['gender'].label = ""
-        # self.fields['picture'].label = ""
         self.initial['gender'] = "Do not show"
 
     def save(self, commit=True):
@@ -188,3 +184,16 @@ class ProfileDeleteForm(DisabledFieldsFormMixin, forms.ModelForm):
     class Meta:
         model = Profile
         exclude = ('user',)
+
+class AddCommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('text',)
+        labels = {'text': ''}
+        widgets = {
+            'text': forms.TextInput(
+                attrs={
+                    'placeholder': 'Your comment',
+                }
+            ),
+        }

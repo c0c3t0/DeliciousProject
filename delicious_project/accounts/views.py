@@ -36,7 +36,7 @@ class UserLogoutView(LogoutView):
     next_page = reverse_lazy('home')
 
 
-class ProfileDetailsView(DetailView):
+class ProfileDetailsView(LoginRequiredMixin, DetailView):
     model = Profile
     template_name = 'accounts/profile_details.html'
     context_object_name = 'profile'
@@ -44,15 +44,11 @@ class ProfileDetailsView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        all_recipes = Recipe.objects.filter(cooked=True)
-        total_user_cooks = sum(recipe.cooked_counter for recipe in all_recipes)
-
         user_recipes = Recipe.objects.filter(user_id=self.request.user)
         user_recipes_counter = len(user_recipes)
         user_recipes_total_cooks= sum(recipe.cooked_counter for recipe in user_recipes)
 
         context.update({
-            'total_user_cooks':total_user_cooks,
             'user_recipes_counter': user_recipes_counter,
             'user_recipes_total_cooks': user_recipes_total_cooks,
             'is_owner':self.object.user == self.request.user,
@@ -60,7 +56,6 @@ class ProfileDetailsView(DetailView):
         })
 
         return context
-    # full name, photo, age, gender, recipes counter, cooked counter
 
 
 class ProfileEditView(LoginRequiredMixin, UpdateView):

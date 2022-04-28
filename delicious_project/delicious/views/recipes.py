@@ -46,8 +46,9 @@ class EditRecipeView(LoginRequiredMixin, UpdateView):
     form_class = EditRecipeForm
     template_name = 'delicious/recipe_edit.html'
 
-    def get_success_url(self, **kwargs):
-        return reverse_lazy('details recipe', kwargs={'pk': self.object.pk})
+    def get_success_url(self):
+        recipe_id = self.kwargs['pk']
+        return reverse_lazy('details recipe', kwargs={'pk': recipe_id})
 
 
 class DetailRecipeView(DetailView):
@@ -60,7 +61,7 @@ class DetailRecipeView(DetailView):
 
 
         context['is_owner'] = self.object.user == self.request.user
-        context['is anonymous'] = not self.request.user.is_authenticated
+        context['is_anonymous'] = not self.request.user.is_authenticated
 
         return context
 
@@ -69,7 +70,10 @@ class DeleteRecipeView(LoginRequiredMixin, CreateView, DeleteView):
     model = Recipe
     form_class = DeleteRecipeForm
     template_name = 'delicious/recipe_delete.html'
-    success_url = reverse_lazy('home')
+
+    def get_success_url(self):
+        return reverse_lazy('all recipes')
+
 
 def cooked_recipe(request, pk):
     recipe = Recipe.objects.get(pk=pk)

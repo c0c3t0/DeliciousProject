@@ -16,25 +16,22 @@
                             <div class="u-container-layout u-container-layout-1">
                                 <h2 class="u-text u-text-1"> {{ profile.full_name }} </h2>
                                 <p class="u-text-11 u-text-2"></p>
-                                <p class="u-text-11 u-text-3"><b>Age:</b> {{ profile.date_of_birth|calculate_years }}
+                                <p class="u-text-11 u-text-3">
+                                    <b>Age:</b> {{ profile.date_of_birth|calculate_years }}
                                 </p>
                                 <p class="u-text-11 u-text-4"><b>Gender:</b> {{ profile.gender }}
                                 </p>
-                                <p class="u-text-11 u-text-4"><b>Gender:</b> {{ profile. }}
+                                <p class="u-text-11 u-text-4"><b>Own:</b> {{ user_recipes_counter }} recipes,
+                                    cooked {{ user_recipes_total_cooks }} times
                                 </p>
-                                {#-------------------------------------- if owner ------------------------------------------------#}
-                                <br><a href="{% url 'edit profile' user.pk %}"
-                                      class="u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-1-base u-radius-50 u-btn-2">Edit</a>
-                                </br>
-                                <br><a href="{% url 'delete profile' user.pk %}"
-                                      class="u-border-2 u-border-hover-palette-1-base u-border-palette-1-base u-btn u-btn-round u-button-style
-                                   u-hover-palette-1-base u-none u-radius-50 u-btn-3">Delete</a></br>
-                                {#                                <p class="u-text-11 u-text-5"><b>Cooking time:</b> {{ recipe.cooking_time }} minutes<br>#}
-                                {#                                </p>#}
-                                {#                                <p class="u-text-11 u-text-6"><b>Total time:</b> {{ recipe.total_cooking_time }} minutes#}
-                                {#                                </p>#}
-                                {#                                <p class="u-text-11 u-text-7"><u>Ingredients:</u> {{ recipe.ingredients|linebreaksbr }}#}
-                                {#                                </p>#}
+                                {% if is_owner %}
+                                    <a href="{% url 'edit profile' user.pk %}"
+                                       class="u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-1-base u-radius-50 u-btn-2">Edit</a>
+
+                                    <a href="{% url 'delete profile' user.pk %}"
+                                       class="u-border-2 u-border-hover-palette-1-base u-border-palette-1-base u-btn u-btn-round u-button-style
+                                   u-hover-palette-1-base u-none u-radius-50 u-btn-3">Delete</a>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="u-container-style u-layout-cell u-right-cell u-size-38 u-layout-cell-2">
@@ -46,7 +43,6 @@
                                              data-image-width="800" data-image-height="533">
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -54,55 +50,4 @@
             </div>
         </div>
     </section>
-
 {% endblock %}
-{#{% block content %}#}
-{#    <section class="u-clearfix u-section-1" id="sec-b4f5">#}
-{#        <div class="u-clearfix u-sheet u-sheet-1">#}
-{#            <div class="u-clearfix u-expanded-width-md u-expanded-width-sm u-expanded-width-xs u-gutter-0 u-layout-wrap u-layout-wrap-1">#}
-{#                <div class="u-layout">#}
-{#                    <div class="u-layout-row">#}
-{#                        <div class="u-container-style u-expand-resize u-image u-image-round#}
-{#                        u-layout-cell u-left-cell u-radius-38 u-size-30 u-image-1">#}
-{#                            <img src="{{ profile.picture }}" alt="https://cdn-icons-png.flaticon.com/512/21/21104.png" data-image-width="256" data-image-height="256">#}
-{#                            <div class="u-container-layout u-container-layout-1"></div>#}
-{#                        </div>#}
-{#                        <div class="u-align-left-xs u-container-style u-layout-cell u-right-cell u-size-30 u-layout-cell-2">#}
-{#                            <div class="u-container-layout u-container-layout-2">#}
-{#                                <div class="u-container-style u-group u-opacity u-opacity-20 u-radius-41 u-shape-round u-white u-group-1">#}
-{#                                    <div class="u-container-layout u-valign-bottom u-container-layout-3">#}
-{#                                        <h2 class="u-text u-text-default u-text-1">Profile Info</h2>#}
-{#                                        <div class="u-text u-text-2">#}
-{#                                            <h4>#}
-{#                                                <b>Name</b>: {{ profile.first_name }} {{ profile.last_name }}#}
-{#                                            </h4>#}
-{#                                            <h4>#}
-{#                                                <b>Age</b>: {{ profile.date_of_birth|calculate_years }}#}
-{#                                            </h4><h4>#}
-{#                                            <b>Gender</b>: {{ profile.gender }}#}
-{#                                        </h4>#}
-{#                                            <ul><a href="https://nicepage.com/k/ranking-website-templates"#}
-{#                                               class="u-active-none u-border-2 u-border-active-palette-2-dark-1 u-border-hover-palette-2-base u-border-palette-1-base u-btn u-button-style u-hover-none u-none u-text-hover-palette-2-base u-text-palette-1-base u-btn-3">Edit Profile#}
-{#                                                </a>#}
-{#                                            <a href="https://nicepage.com/k/ranking-website-templates"#}
-{#                                               class="u-active-none u-border-2 u-border-active-palette-2-dark-1 u-border-hover-palette-2-base u-border-palette-1-base u-btn u-button-style u-hover-none u-none u-text-hover-palette-2-base u-text-palette-1-base u-btn-3">My#}
-{#                                                recipes</a>#}
-{#                                            <a href="https://nicepage.com/k/ranking-website-templates"#}
-{#                                               class="u-active-none u-border-2 u-border-active-palette-2-dark-1 u-border-hover-palette-2-base u-border-palette-1-base u-btn u-button-style u-hover-none u-none u-text-hover-palette-2-base u-text-palette-1-base u-btn-3">Cooked#}
-{#                                                recipes</a></ul>#}
-{##}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#    </section>#}
-{#    <style class="u-overlap-style">:not {#}
-{#        background-color: #f8f8f6 !important#}
-{#    }</style>#}
-{##}
-{#{% endblock %}#}

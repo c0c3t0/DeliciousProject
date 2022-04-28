@@ -69,6 +69,7 @@ class Recipe(models.Model):
     def __str__(self):
         return self.title
 
+
     @property
     def total_cooking_time(self):
         return self.preparation_time + self.cooking_time
@@ -88,3 +89,23 @@ class CookedRecipe(models.Model):
         Recipe,
         on_delete=models.CASCADE,
     )
+
+
+class Comment(models.Model):
+    text = models.TextField()
+
+    recipe = models.ForeignKey(
+        Recipe,
+        on_delete=models.CASCADE,
+    )
+    user = models.ForeignKey(
+        UserModel,
+        on_delete=models.CASCADE,
+    )
+
+    published_on = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    class Meta:
+        ordering = ('-published_on',)

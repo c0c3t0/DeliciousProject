@@ -25,6 +25,8 @@
                                 </p>
                                 <p class="u-text-11 u-text-6"><b>Total time:</b> {{ recipe.total_cooking_time }} minutes
                                 </p>
+                                <p class="u-text-11 u-text-6"><b>Cooked:</b> {{ recipe.cooked_counter }} times
+                                </p>
                                 <p class="u-text-11 u-text-7"><u>Ingredients:</u> {{ recipe.ingredients|linebreaksbr }}
                                 </p>
                             </div>
@@ -37,25 +39,29 @@
                                              data-image-width="800" data-image-height="533">
                                     </div>
                                 </div>
-                                {#-------------------------------------- if owner ------------------------------------------------#}
                                 <p class="u-text-11 u-text-8"><u>Directions:</u> {{ recipe.description }}</p>
-                                {% if is_owner %}
-                                    <a href="{% url 'edit recipe' recipe.pk %}"
-                                       class="u-btn u-btn-round u-button-style u-hover-palette-1-base-1 u-none u-radius-50 u-btn-2">Edit</a>
-                                    <a href="{% url 'delete recipe' recipe.pk %}"
-                                       class="u-border-2 u-border-hover-palette-1-base u-border-palette-1-base u-btn u-btn-round u-button-style
+                                {% if not is_anonymous %}
+                                    {% if is_owner %}
+                                        <a href="{% url 'edit recipe' recipe.pk %}"
+                                           class="u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-1-base u-radius-50 u-btn-2">Edit</a>
+                                        <a href="{% url 'delete recipe' recipe.pk %}"
+                                           class="u-border-2 u-border-hover-palette-1-base u-border-palette-1-base u-btn u-btn-round u-button-style
                                    u-hover-palette-1-base u-none u-radius-50 u-btn-3">Delete</a>
-                                {% else %}
-                                    <a href="{% url 'user recipes' recipe.pk %}"
-                                       class="u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-1-base u-radius-50 u-btn-2">Edit</a>
-                                    {% if request.user in recipe.cooked.all %}<a href="{% url 'cooked' recipe.pk %}"
-                                                                                 class="u-border-2 u-border-hover-palette-1-base u-border-palette-1-base u-btn u-btn-round u-button-style
-                                   u-hover-palette-1-light-1 u-none u-radius-50 u-btn-3">Cooked</a>
-                                    {% else %}<a href="{% url 'cooked' recipe.pk %}"
-                                                 class="u-border-2 u-border-hover-palette-1-base u-border-palette-1-base u-btn u-btn-round u-button-style
+                                    {% else %}
+                                        {% if request.user in recipe.cooked.all %}
+                                            <a href="{% url 'cooked' recipe.pk %}"
+                                               class="u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-1-base u-radius-50 u-btn-2">Cooked</a>
+                                        {% else %}
+                                            <a href="{% url 'cooked' recipe.pk %}"
+                                               class="u-border-2 u-border-hover-palette-1-base u-border-palette-1-base u-btn u-btn-round u-button-style
                                    u-hover-palette-1-base u-none u-radius-50 u-btn-3">Not Cooked Yet</a>
+                                        {% endif %}
+                                        <a href="{% url 'add comment' recipe.pk %}"
+                                           class="u-border-2 u-border-hover-palette-1-base u-border-palette-1-base u-btn u-btn-round u-button-style
+                                   u-hover-palette-1-base u-none u-radius-50 u-btn-3">comment</a>
                                     {% endif %}
                                 {% endif %}
+
                             </div>
                         </div>
                     </div>
@@ -63,5 +69,24 @@
             </div>
         </div>
     </section>
+    {#    <section id="app">#}
+    {#        <div class="container">#}
+    {#            <div class="row">#}
+    {#                <div class="col-6">#}
+    {#                    <div class="comment">#}
+    {#                        <p v-for="items in item" v-text="items"></p>#}
+    {#                    </div><!--End Comment-->#}
+    {#                </div><!--End col -->#}
+    {#            </div><!-- End row -->#}
+    {#            <div class="row">#}
+    {#                <div class="col-6">#}
+    {#                    <textarea type="text" class="input" placeholder="Write a comment" v-model="newItem"#}
+    {#                              @keyup.enter="addItem()"></textarea>#}
+    {#                    <button v-on:click="addItem()" class='primaryContained float-right' type="submit">Add Comment#}
+    {#                    </button>#}
+    {#                </div><!-- End col -->#}
+    {#            </div><!--End Row -->#}
+    {#        </div><!--End Container -->#}
+    {#    </section><!-- end App -->#}
 {% endblock %}
 

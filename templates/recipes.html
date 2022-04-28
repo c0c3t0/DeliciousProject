@@ -24,17 +24,13 @@
                             <p class="u-text u-text-grey-30 u-text-3">{{ recipe.description|truncatechars:50 }}</p>
                             <p class="u-text u-text-grey-30 u-text-3">{{ recipe.category }}</p>
                             <a href="{% url 'details recipe' recipe.pk %}"
-                               class="u-active-none u-border-2 u-border-active-white u-border-hover-white u-border-white u-btn u-button-style u-hover-none u-none u-text-body-alt-color u-text-hover-grey-30 u-btn-1">learn
+                               class="u-active-none u-border-2 u-border-active-white u-border-hover-white u-border-white
+                               u-btn u-button-style u-hover-none u-none u-text-body-alt-color u-text-hover-grey-30 u-btn-1">learn
                                 more</a>
                         </div>
                     </div>
                 {% endfor %}
             </div>
         </div>
-
     </section>
-    <style class="u-overlap-style">{
-        background-color: #f8f8f6 !important
-    }</style>
-
 {% endblock %}

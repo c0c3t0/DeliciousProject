@@ -13,7 +13,7 @@
             <div class="u-align-left u-border-2 u-border-grey-75 u-container-style u-group u-opacity u-opacity-20 u-radius-20 u-shape-round u-white u-group-1">
                 <div class="u-container-layout u-valign-top u-container-layout-1">
                     <div class="u-form u-form-1">
-                        <form action="{% url 'delete recipe' request.user.pk %}" method="POST">
+                        <form action="{% url 'delete recipe' recipe.pk %}" method="POST">
                             {% csrf_token %}
                             {{ form.as_p }}
                             <button type="submit" class="btn btn-primary">Delete</button>
