@@ -1,15 +1,17 @@
 from datetime import date, timedelta, datetime
 
-from bootstrap_datepicker_plus.widgets import DatePickerInput
+# from bootstrap_datepicker_plus.widgets import DatePickerInput
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 
 from django import forms
 from django.forms import EmailField
 
-from delicious_project.accounts.models import Profile, DeliciousAppUser
+from delicious_project.accounts.models import Profile
 from delicious_project.common.helpers import DisabledFieldsFormMixin
 from delicious_project.delicious.models import Comment
+
+UserModel = get_user_model()
 
 
 def yesterday():
@@ -59,7 +61,7 @@ class RegisterForm(UserCreationForm):
 
     date_of_birth = forms.DateField(
         initial=yesterday(),
-        widget=DatePickerInput(),
+        # widget=DatePickerInput(),
     )
 
     email = forms.EmailField(
@@ -99,6 +101,7 @@ class RegisterForm(UserCreationForm):
         self.fields['password1'].label = "Password"
         self.fields['password2'].label = "Repeat password"
         self.initial['gender'] = "Do not show"
+        self.fields['picture'].required = False
 
     def save(self, commit=True):
         user = super().save(commit=commit)
@@ -136,8 +139,8 @@ class LoginForm(AuthenticationForm):
     )
 
     class Meta:
-        model = DeliciousAppUser
-        fields = ('username', 'password')
+        model = UserModel
+        fields = ('password')
         field_classes = {"email": EmailField}
 
     def __init__(self, *args, **kwargs):
@@ -184,6 +187,7 @@ class ProfileDeleteForm(DisabledFieldsFormMixin, forms.ModelForm):
     class Meta:
         model = Profile
         exclude = ('user',)
+
 
 class AddCommentForm(forms.ModelForm):
     class Meta:

@@ -1,6 +1,6 @@
 from django.views.generic import TemplateView, ListView
 
-from delicious_project.delicious.models import Recipe
+from delicious_project.delicious.models import Recipe, Category
 
 
 class HomeView(TemplateView):
@@ -18,70 +18,21 @@ class ShowAllRecipesView(ListView):
 
 
 class ShowCategoryView(ListView):
-    model = Recipe
+    model = Category
     template_name = 'categories.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=None, **kwargs)
-        context['categories'] = Recipe.DISH_TYPES
+        context['categories'] = context['category_list']
         return context
 
 
-class ShowBreakfastRecipesView(ListView):
+class ShowRecipesByCategoryView(ListView):
     model = Recipe
     template_name = 'recipes.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=None, **kwargs)
-        context['recipes'] = Recipe.objects.filter(category='Breakfast')
-        return context
-
-
-class ShowLunchRecipesView(ListView):
-    model = Recipe
-    template_name = 'recipes.html'
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(object_list=None, **kwargs)
-        context['recipes'] = Recipe.objects.filter(category='Lunch')
-        return context
-
-
-class ShowDinnerRecipesView(ListView):
-    model = Recipe
-    template_name = 'recipes.html'
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(object_list=None, **kwargs)
-        context['recipes'] = Recipe.objects.filter(category='Dinner')
-        return context
-
-
-class ShowDessertRecipesView(ListView):
-    model = Recipe
-    template_name = 'recipes.html'
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(object_list=None, **kwargs)
-        context['recipes'] = Recipe.objects.filter(category='Dessert')
-        return context
-
-
-class ShowAppetizersRecipesView(ListView):
-    model = Recipe
-    template_name = 'recipes.html'
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(object_list=None, **kwargs)
-        context['recipes'] = Recipe.objects.filter(category='Appetizers')
-        return context
-
-
-class ShowDrinksRecipesView(ListView):
-    model = Recipe
-    template_name = 'recipes.html'
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(object_list=None, **kwargs)
-        context['recipes'] = Recipe.objects.filter(category='Drinks')
+        slug = self.kwargs['slug']
+        context['recipes'] = Recipe.objects.filter(category__slug=slug)
         return context

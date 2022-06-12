@@ -1,22 +1,52 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 
 UserModel = get_user_model()
+
+
+class Category(models.Model):
+    class Title(models.TextChoices):
+        BREAKFAST = 'Breakfast', _('Breakfast')
+        LUNCH = 'Lunch', _('Lunch')
+        DINNER = 'Dinner', _('Dinner')
+        DESSERTS = 'Dessert', _('Dessert')
+        APPETIZERS = 'Appetizers', _('Appetizers')
+        DRINKS = 'Drinks', _('Drinks')
+        UNCATEGORIZED = 'Uncategorized', _('Uncategorized')
+
+        # DISH_TYPES = [(x, x) for x in (BREAKFAST, LUNCH, DINNER, DESSERTS, APPETIZERS, DRINKS, UNCATEGORIZED)]
+
+    # title = models.CharField(
+    #     max_length=max(len(x) for x, _ in DISH_TYPES),
+    #     choices=DISH_TYPES,
+    # )
+
+    title = models.CharField(
+        max_length=13,
+        choices=Title.choices,
+        default=Title.UNCATEGORIZED,
+    )
+
+    slug = models.SlugField(
+        unique=True,
+    )
+
+    class Meta:
+        verbose_name_plural = 'Categories'
+
+    def __str__(self):
+        return f'{self.title}'
+
+    def get_absolute_url(self):
+        return reverse("breakfast", kwargs={"slug": self.slug})
 
 
 class Recipe(models.Model):
     TITLE_MAX_LEN = 100
     INGREDIENT_MAX_LEN = 3000
     DESCRIPTION_MAX_LEN = 10000
-
-    BREAKFAST = 'Breakfast'
-    LUNCH = 'Lunch'
-    DINNER = 'Dinner'
-    DESSERTS = 'Dessert'
-    APPETIZERS = 'Appetizers'
-    DRINKS = 'Drinks'
-
-    DISH_TYPES = [(x, x) for x in (BREAKFAST, LUNCH, DINNER, DESSERTS, APPETIZERS, DRINKS)]
 
     title = models.CharField(
         max_length=TITLE_MAX_LEN,
@@ -53,9 +83,9 @@ class Recipe(models.Model):
     publication_date = models.DateTimeField(
         auto_now_add=True,
     )
-    category = models.CharField(
-        max_length=max(len(x) for x, _ in DISH_TYPES),
-        choices=DISH_TYPES,
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.CASCADE,
     )
 
     user = models.ForeignKey(
@@ -68,7 +98,6 @@ class Recipe(models.Model):
 
     def __str__(self):
         return self.title
-
 
     @property
     def total_cooking_time(self):

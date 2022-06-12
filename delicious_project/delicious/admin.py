@@ -1,11 +1,17 @@
 from django.contrib import admin
 
-from delicious_project.delicious.models import Recipe, CookedRecipe
+from delicious_project.delicious.models import Recipe, CookedRecipe, Category
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('title',)
+    prepopulated_fields = {'slug': ('title',)}
 
 
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
-    list_display = ('title',)
+    list_display = ('title', 'category')
 
 
 @admin.register(CookedRecipe)
