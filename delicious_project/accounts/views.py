@@ -46,12 +46,15 @@ class ProfileDetailsView(LoginRequiredMixin, DetailView):
 
         user_recipes = Recipe.objects.filter(user_id=self.request.user)
         user_recipes_counter = len(user_recipes)
-        user_recipes_total_cooks= sum(recipe.cooked_counter for recipe in user_recipes)
+        user_recipes_total_cooks = sum(recipe.cooked_counter for recipe in user_recipes)
+
+        cooked_recipes_by_user = Recipe.objects.filter(cooked=self.request.user).count()
 
         context.update({
             'user_recipes_counter': user_recipes_counter,
             'user_recipes_total_cooks': user_recipes_total_cooks,
-            'is_owner':self.object.user == self.request.user,
+            'cooked_recipes_by_user': cooked_recipes_by_user,
+            'is_owner': self.object.user == self.request.user,
             'is_anonymous': not self.request.user.is_authenticated,
         })
 
@@ -63,7 +66,6 @@ class ProfileEditView(LoginRequiredMixin, UpdateView):
     form_class = EditProfileForm
     template_name = 'accounts/profile_edit.html'
 
-
     def get_success_url(self):
         profile_id = self.kwargs['pk']
         return reverse_lazy('profile details', kwargs={'pk': profile_id})
@@ -74,4 +76,3 @@ class ProfileDeleteView(LoginRequiredMixin, CreateView, DeleteView):
     form_class = ProfileDeleteForm
     template_name = 'accounts/profile_delete.html'
     success_url = reverse_lazy('home')
-

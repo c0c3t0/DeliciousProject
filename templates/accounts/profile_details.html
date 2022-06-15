@@ -24,6 +24,8 @@
                                 <p class="u-text-11 u-text-4"><b>Own:</b> {{ user_recipes_counter }} recipes,
                                     cooked {{ user_recipes_total_cooks }} times
                                 </p>
+                                <p class="u-text-11 u-text-4"><b>Cooked:</b> {{ cooked_recipes_by_user }} recipes
+                                </p>
                                 {% if is_owner %}
                                     <a href="{% url 'edit profile' user.pk %}"
                                        class="u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-1-base u-radius-50 u-btn-2">Edit</a>

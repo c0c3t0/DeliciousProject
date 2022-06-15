@@ -7,6 +7,8 @@ UserModel = get_user_model()
 
 
 class Category(models.Model):
+    TITLE_MAX_LEN = 20
+
     class Title(models.TextChoices):
         BREAKFAST = 'Breakfast', _('Breakfast')
         LUNCH = 'Lunch', _('Lunch')
@@ -24,7 +26,7 @@ class Category(models.Model):
     # )
 
     title = models.CharField(
-        max_length=13,
+        max_length=TITLE_MAX_LEN,
         choices=Title.choices,
         default=Title.UNCATEGORIZED,
     )
@@ -40,7 +42,7 @@ class Category(models.Model):
         return f'{self.title}'
 
     def get_absolute_url(self):
-        return reverse("breakfast", kwargs={"slug": self.slug})
+        return reverse("category slug", kwargs={"slug": self.slug})
 
 
 class Recipe(models.Model):
@@ -61,16 +63,6 @@ class Recipe(models.Model):
         max_length=DESCRIPTION_MAX_LEN,
     )
 
-    is_cooked = models.BooleanField(
-        default=False,
-    )
-
-    cooked = models.ManyToManyField(
-        UserModel,
-        blank=True,
-        related_name='cooked',
-    )
-
     picture = models.URLField(
         null=True,
         blank=True,
@@ -83,6 +75,13 @@ class Recipe(models.Model):
     publication_date = models.DateTimeField(
         auto_now_add=True,
     )
+
+    cooked = models.ManyToManyField(
+        UserModel,
+        blank=True,
+        related_name='cooked',
+    )
+
     category = models.ForeignKey(
         Category,
         on_delete=models.CASCADE,
@@ -107,17 +106,6 @@ class Recipe(models.Model):
     def cooked_counter(self):
         return self.cooked.all().count()
 
-
-class CookedRecipe(models.Model):
-    user = models.ForeignKey(
-        UserModel,
-        on_delete=models.CASCADE,
-    )
-
-    recipe = models.ForeignKey(
-        Recipe,
-        on_delete=models.CASCADE,
-    )
 
 
 class Comment(models.Model):
