@@ -5,10 +5,13 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 
 from django import forms
+from django.core import validators
+from django.core.validators import MinLengthValidator
 from django.forms import EmailField
 
 from delicious_project.accounts.models import Profile
 from delicious_project.common.helpers import DisabledFieldsFormMixin
+from delicious_project.common.validators import contain_only_letters_validator
 from delicious_project.delicious.models import Comment
 
 UserModel = get_user_model()
@@ -22,6 +25,10 @@ def yesterday():
 class RegisterForm(UserCreationForm):
     first_name = forms.CharField(
         max_length=Profile.FIRST_NAME_MAX_LENGTH,
+        validators=(
+            MinLengthValidator(Profile.FIRST_NAME_MIN_LENGTH),
+            contain_only_letters_validator,
+        ),
         widget=forms.TextInput(
             attrs={
                 'label': "",
@@ -30,15 +37,21 @@ class RegisterForm(UserCreationForm):
             }
         )
     )
+
     last_name = forms.CharField(
         max_length=Profile.LAST_NAME_MAX_LENGTH,
+        validators=(
+            MinLengthValidator(Profile.LAST_NAME_MIN_LENGTH),
+            contain_only_letters_validator,
+        ),
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
                 'placeholder': 'Last name',
             }
-        )
+        ),
     )
+
     gender = forms.CharField(
         max_length=max(len(x) for x, _ in Profile.GENDERS),
         widget=forms.Select(
