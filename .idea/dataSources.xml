@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="postgres@localhost" uuid="66b08bdb-7d74-4d6c-824e-bd4d60446358">
+    <data-source source="LOCAL" name="delicious_db@localhost" uuid="8978c26d-67be-4712-9e42-8b60bd0bba81">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/postgres</jdbc-url>
+      <jdbc-url>jdbc:postgresql://localhost:5432/delicious_db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="Django default" uuid="dffa393f-fafe-49a2-966e-a5bb76070f98">
+    <data-source source="LOCAL" name="Django default" uuid="df62e021-240c-4262-854e-1372300dbf91">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <imported>true</imported>
