@@ -1,11 +1,9 @@
-from datetime import date, timedelta, datetime
+from datetime import date, timedelta
 
-# from bootstrap_datepicker_plus.widgets import DatePickerInput
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 
 from django import forms
-from django.core import validators
 from django.core.validators import MinLengthValidator
 from django.forms import EmailField
 
@@ -20,6 +18,11 @@ UserModel = get_user_model()
 def yesterday():
     yesterday = date.today() - timedelta(days=1)
     return yesterday
+
+
+def a_hundred_years_ago():
+    a_hundred_years_ago = date.today() - timedelta(days=3 * 365)
+    return a_hundred_years_ago
 
 
 class RegisterForm(UserCreationForm):
@@ -73,8 +76,13 @@ class RegisterForm(UserCreationForm):
     )
 
     date_of_birth = forms.DateField(
-        initial=yesterday(),
-        # widget=DatePickerInput(),
+        widget=forms.DateInput(
+            attrs={
+                'type': 'date',
+                'min': a_hundred_years_ago(),
+                'max': yesterday(),
+            }
+        )
     )
 
     email = forms.EmailField(
@@ -182,14 +190,19 @@ class ChangePasswordForm(PasswordChangeForm):
 
 
 class EditProfileForm(forms.ModelForm):
+    date_of_birth = forms.DateField(
+        widget=forms.DateInput(
+            attrs={
+                'type': 'date',
+                'min': a_hundred_years_ago(),
+                'max': yesterday(),
+            }
+        )
+    )
+
     class Meta:
         model = Profile
         fields = ('first_name', 'last_name', 'gender', 'picture', 'date_of_birth')
-        widgets = {
-            'date_of_birth': forms.SelectDateWidget(
-                years=range(datetime.now().year, 1919, -1),
-
-            ), }
 
 
 class ProfileDeleteForm(DisabledFieldsFormMixin, forms.ModelForm):
