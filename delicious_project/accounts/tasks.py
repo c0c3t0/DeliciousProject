@@ -20,9 +20,3 @@ def send_successful_registration_email(user_pk):
         settings.EMAIL_HOST_USER,
         (user.email,),
     )
-
-
-'''ocess] Task delicious_project.accounts.tasks.send_successful_registration_email[449ad2f3-17f8-4546-8d00-fc783a17799b] received
-[2022-06-25 20:26:27,897: INFO/ForkPoolWorker-1] Task delicious_project.accounts.tasks.send_successful_registration_email[
-449ad2f3-17f8-4546-8d00-fc783a17799b] succeeded in 35.15729672700036s: None
-'''

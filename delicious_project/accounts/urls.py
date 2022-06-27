@@ -2,12 +2,13 @@ from django.urls import path, reverse_lazy
 from django.views.generic import RedirectView
 
 from delicious_project.accounts.views import UserRegisterView, UserLoginView, UserLogoutView, ChangeUserPasswordView, \
-    ProfileDetailsView, ProfileEditView, ProfileDeleteView
+    ProfileDetailsView, ProfileEditView, ProfileDeleteView, ActivateAccount
 from delicious_project.delicious.views.comments import AddCommentView
 
 urlpatterns = [
 
     path('create-profile/', UserRegisterView.as_view(), name='register'),
+    path('activate/<uidb64>/<token>/', ActivateAccount.as_view(), name='activate'),
     path('login/', UserLoginView.as_view(), name='login'),
     path('logout/', UserLogoutView.as_view(), name='logout'),
     path('change-password/<int:pk>/', ChangeUserPasswordView.as_view(), name='change password'),

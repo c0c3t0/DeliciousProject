@@ -16,13 +16,13 @@ UserModel = get_user_model()
 
 
 def yesterday():
-    yesterday = date.today() - timedelta(days=1)
-    return yesterday
+    result = date.today() - timedelta(days=1)
+    return result
 
 
 def a_hundred_years_ago():
-    a_hundred_years_ago = date.today() - timedelta(days=3 * 365)
-    return a_hundred_years_ago
+    result = date.today() - timedelta(days=100 * 365)
+    return result
 
 
 class RegisterForm(UserCreationForm):
@@ -123,21 +123,6 @@ class RegisterForm(UserCreationForm):
         self.fields['password2'].label = "Repeat password"
         self.initial['gender'] = "Do not show"
         self.fields['picture'].required = False
-
-    def save(self, commit=True):
-        user = super().save(commit=commit)
-        profile = Profile(
-            first_name=self.cleaned_data['first_name'],
-            last_name=self.cleaned_data['last_name'],
-            gender=self.cleaned_data['gender'],
-            picture=self.cleaned_data['picture'],
-            date_of_birth=self.cleaned_data['date_of_birth'],
-            user=user,
-        )
-
-        if commit:
-            profile.save()
-        return user
 
 
 class LoginForm(AuthenticationForm):
