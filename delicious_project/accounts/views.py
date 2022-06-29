@@ -1,7 +1,9 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model, login
+from django.contrib.auth.forms import SetPasswordForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordResetView, PasswordContextMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
@@ -9,7 +11,7 @@ from django.urls import reverse_lazy
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views import View
-from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, FormView
 
 from delicious_project.accounts.forms import RegisterForm, LoginForm, ChangePasswordForm, EditProfileForm, \
     ProfileDeleteForm
@@ -97,6 +99,19 @@ class ActivateAccount(View):
 class UserLoginView(LoginView):
     form_class = LoginForm
     template_name = 'accounts/login_page.html'
+
+    # def form_valid(self, form):
+    #     remember_me = form.cleaned_data.get('remember_me')
+    #
+    #     if not remember_me:
+    #         # set session expiry to 0 seconds. So it will automatically close the session after the browser is closed.
+    #         self.request.session.set_expiry(0)
+    #
+    #         # Set session as modified to force data updates/cookie to be saved.
+    #         self.request.session.modified = True
+    #
+    #     # else browser session will be as long as the session cookie time "SESSION_COOKIE_AGE" defined in settings.py
+    #     return super(CustomLoginView, self).form_valid(form)
 
     def get_success_url(self):
         return reverse_lazy('home')

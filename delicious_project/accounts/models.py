@@ -32,6 +32,10 @@ class DeliciousAppUser(AbstractBaseUser, PermissionsMixin):
         default=False,
     )
 
+    is_active = models.BooleanField(
+        default=True,
+    )
+
     def confirm_email(self, *args, **kwargs):
         send_mail(
             '{}'.format(args[0]),
