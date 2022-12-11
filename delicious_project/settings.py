@@ -20,8 +20,8 @@ DJANGO_APPS = (
     'django.contrib.staticfiles',
 
     'bootstrap4',
-    # 'bootstrap_datepicker_plus',
 )
+
 THIRD_PARTY_APPS = ()
 
 PROJECT_APPS = (

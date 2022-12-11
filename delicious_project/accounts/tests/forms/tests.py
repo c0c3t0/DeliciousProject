@@ -110,4 +110,4 @@ class AccountFormsTests(TestCase):
         form.instance.user = user
 
         self.client.get(reverse('delete profile', args=(profile.pk,)), follow=True)
-        self.assertTemplateUsed('accounts/profile_delete.html')
+        self.assertTemplateUsed('auth/profile_delete.html')

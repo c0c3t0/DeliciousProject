@@ -26,6 +26,22 @@ class UserRecipesView(LoginRequiredMixin, ListView):
         })
         return context
 
+class UserCookedRecipesView(LoginRequiredMixin, ListView):
+    model = Recipe
+    template_name = 'delicious/user_recipes.html'
+
+    def get_queryset(self):
+        recipes = Recipe.objects.filter(cooked=self.request.user)
+        return recipes
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        recipes = list(Recipe.objects.filter(cooked=self.request.user))
+
+        context.update({
+            'recipes': recipes,
+        })
+        return context
 
 class CreateRecipeView(LoginRequiredMixin, CreateView):
     model = Recipe

@@ -16,15 +16,20 @@
                             <div class="u-container-layout u-container-layout-1">
                                 <h2 class="u-text u-text-1"> {{ profile.full_name }} </h2>
                                 <p class="u-text-11 u-text-2"></p>
-                                <p class="u-text-11 u-text-3">
-                                    <b>Age:</b> {{ profile.date_of_birth|calculate_years }}
-                                </p>
+                                {% if profile.date_of_birth %}
+                                    <p class="u-text-11 u-text-3">
+                                        <b>Age:</b> {{ profile.date_of_birth|calculate_years }}
+                                    </p>
+                                {% endif %}
                                 <p class="u-text-11 u-text-4"><b>Gender:</b> {{ profile.gender }}
                                 </p>
-                                <p class="u-text-11 u-text-4"><b>Own:</b> {{ user_recipes_counter }} recipes,
-                                    cooked {{ user_recipes_total_cooks }} times
-                                </p>
-                                <p class="u-text-11 u-text-4"><b>Cooked:</b> {{ cooked_recipes_by_user }} recipes
+                                <p class="u-text-11 u-text-4">
+                                    <a href="{% url 'user recipes' request.user.pk %}">
+                                        <b>Own: </b>{{ user_recipes_counter }} recipes</a>,
+                                    cooked {{ user_recipes_total_cooks }} times </p>
+                                <p class="u-text-11 u-text-4">
+                                    <a href="{% url 'user cooked recipes' request.user.pk %}">
+                                        <b>Cooked:</b> {{ cooked_recipes_by_user }} recipes</a>
                                 </p>
                                 {% if is_owner %}
                                     <a href="{% url 'edit profile' user.pk %}"

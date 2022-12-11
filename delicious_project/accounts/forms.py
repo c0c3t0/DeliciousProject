@@ -1,5 +1,3 @@
-from datetime import date, timedelta
-
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 
@@ -9,20 +7,10 @@ from django.forms import EmailField
 
 from delicious_project.accounts.models import Profile
 from delicious_project.common.helpers import DisabledFieldsFormMixin
-from delicious_project.common.validators import contain_only_letters_validator
+from delicious_project.common.validators import contain_only_letters_validator, a_hundred_years_ago, yesterday
 from delicious_project.delicious.models import Comment
 
 UserModel = get_user_model()
-
-
-def yesterday():
-    result = date.today() - timedelta(days=1)
-    return result
-
-
-def a_hundred_years_ago():
-    result = date.today() - timedelta(days=100 * 365)
-    return result
 
 
 class RegisterForm(UserCreationForm):
@@ -67,15 +55,20 @@ class RegisterForm(UserCreationForm):
         )
     )
     picture = forms.URLField(
+        required=False,
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
                 'placeholder': 'Enter URL',
+                'required': False,
+                'blank': True,
+                'null': True,
             }
         )
     )
 
     date_of_birth = forms.DateField(
+        required=False,
         widget=forms.DateInput(
             attrs={
                 'type': 'date',
@@ -112,7 +105,7 @@ class RegisterForm(UserCreationForm):
     )
 
     class Meta:
-        model = get_user_model()
+        model = UserModel
         fields = ('email', 'password1', 'password2', 'first_name', 'last_name', 'gender', 'picture', 'date_of_birth')
         field_classes = {"email": EmailField}
 
@@ -123,10 +116,12 @@ class RegisterForm(UserCreationForm):
         self.fields['password2'].label = "Repeat password"
         self.initial['gender'] = "Do not show"
         self.fields['picture'].required = False
+        self.fields['date_of_birth'].required = False
 
 
 class LoginForm(AuthenticationForm):
     username = EmailField(
+        label='Email',
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -146,7 +141,7 @@ class LoginForm(AuthenticationForm):
 
     class Meta:
         model = UserModel
-        fields = ('password')
+        fields = ('email', 'password')
         field_classes = {"email": EmailField}
 
     def __init__(self, *args, **kwargs):
@@ -164,6 +159,25 @@ class ChangePasswordForm(PasswordChangeForm):
         ),
     )
 
+    new_password1 = forms.CharField(
+        label="New password",
+        widget=forms.PasswordInput(
+            attrs={
+                "autocomplete": "new-password"
+            }
+        ),
+    )
+
+    new_password2 = forms.CharField(
+        label="Repeat password",
+        strip=False,
+        widget=forms.PasswordInput(
+            attrs={
+                "autocomplete": "new-password"
+            }
+        ),
+    )
+
     field_order = ['old_password', 'new_password1', 'new_password2']
 
     def __init__(self, *args, **kwargs):
@@ -171,7 +185,7 @@ class ChangePasswordForm(PasswordChangeForm):
 
         self.fields['old_password'].widget.attrs['placeholder'] = 'Old password'
         self.fields['new_password1'].widget.attrs['placeholder'] = 'New password'
-        self.fields['new_password2'].widget.attrs['placeholder'] = 'New password again'
+        self.fields['new_password2'].widget.attrs['placeholder'] = 'Repeat password'
 
 
 class EditProfileForm(forms.ModelForm):

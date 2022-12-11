@@ -1,15 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model, login
-from django.contrib.auth.forms import SetPasswordForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordResetView, PasswordContextMixin
-from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
 from django.shortcuts import render, redirect
-from django.template.loader import render_to_string
 from django.urls import reverse_lazy
-from django.utils.encoding import force_bytes, force_str
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_str
+from django.utils.http import urlsafe_base64_decode
 from django.views import View
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, FormView
 
@@ -18,14 +14,13 @@ from delicious_project.accounts.forms import RegisterForm, LoginForm, ChangePass
 from delicious_project.accounts.models import Profile
 from delicious_project.accounts.tokens import account_activation_token
 from delicious_project.delicious.models import Recipe
-from delicious_project.accounts.tasks import send_successful_registration_email
 
 UserModel = get_user_model()
 
 
 class UserRegisterView(CreateView):
     form_class = RegisterForm
-    template_name = 'accounts/profile_create.html'
+    template_name = 'auth/register.html'
     success_url = reverse_lazy('login')
 
     def get(self, request, *args, **kwargs):
@@ -40,7 +35,7 @@ class UserRegisterView(CreateView):
         form = self.form_class(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.is_active = False  # Deactivate account till it is confirmed
+            # user.is_active = False  # Deactivate account till it is confirmed
             user.save()
 
             profile = Profile(
@@ -53,21 +48,8 @@ class UserRegisterView(CreateView):
             )
             profile.save()
 
-            send_successful_registration_email.delay(user.pk)
-
-            current_site = get_current_site(request)
-            subject = 'Activate Your Account'
-            message = render_to_string('accounts/confirm_email.html', {
-                'user': user,
-                'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': account_activation_token.make_token(user),
-            })
-            user.confirm_email(subject, message)
-
-            messages.success(request, ('Please confirm your email to complete registration.'))
-
             return redirect('login')
+
         context = {
             'form': form,
         }
@@ -96,9 +78,14 @@ class ActivateAccount(View):
             return redirect('home')
 
 
+class ChangeUserPasswordView(PasswordChangeView):
+    form_class = ChangePasswordForm
+    template_name = 'auth/change_password.html'
+
+
 class UserLoginView(LoginView):
     form_class = LoginForm
-    template_name = 'accounts/login_page.html'
+    template_name = 'auth/login.html'
 
     # def form_valid(self, form):
     #     remember_me = form.cleaned_data.get('remember_me')
@@ -117,19 +104,14 @@ class UserLoginView(LoginView):
         return reverse_lazy('home')
 
 
-class ChangeUserPasswordView(PasswordChangeView):
-    form_class = ChangePasswordForm
-    template_name = 'accounts/change_password.html'
-
-
 class UserLogoutView(LogoutView):
-    template_name = 'accounts/logout_page.html'
+    template_name = 'auth/logout_page.html'
     next_page = reverse_lazy('home')
 
 
 class ProfileDetailsView(LoginRequiredMixin, DetailView):
     model = Profile
-    template_name = 'accounts/profile_details.html'
+    template_name = 'profile/profile_details.html'
     context_object_name = 'profile'
 
     def get_context_data(self, **kwargs):
@@ -155,7 +137,7 @@ class ProfileDetailsView(LoginRequiredMixin, DetailView):
 class ProfileEditView(LoginRequiredMixin, UpdateView):
     model = Profile
     form_class = EditProfileForm
-    template_name = 'accounts/profile_edit.html'
+    template_name = 'profile/profile_edit.html'
 
     def get_success_url(self):
         profile_id = self.kwargs['pk']
@@ -165,5 +147,5 @@ class ProfileEditView(LoginRequiredMixin, UpdateView):
 class ProfileDeleteView(LoginRequiredMixin, CreateView, DeleteView):
     model = Profile
     form_class = ProfileDeleteForm
-    template_name = 'accounts/profile_delete.html'
+    template_name = 'profile/profile_delete.html'
     success_url = reverse_lazy('home')

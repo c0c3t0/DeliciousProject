@@ -2,14 +2,14 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 
-from delicious_project.accounts.models import Profile, DeliciousAppUser
+from delicious_project.accounts.models import Profile
 
 UserModel = get_user_model()
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('first_name', 'last_name',)
-
+    search_fields = ('first_name', 'last_name')
 
 @admin.register(UserModel)
 class CustomUserAdmin(UserAdmin):

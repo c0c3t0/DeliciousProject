@@ -15,4 +15,4 @@ class Test(TestCase):
 
         self.assertEqual(str(response.context['user']), 'test@test.ov')
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'accounts/login_page.html')
+        self.assertTemplateUsed(response, 'auth/login.html')

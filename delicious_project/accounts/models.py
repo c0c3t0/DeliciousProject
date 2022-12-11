@@ -1,10 +1,8 @@
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
-from django.core.mail import send_mail
 from django.core.validators import MinLengthValidator
 from django.db import models
 
-from delicious_project import settings
 from delicious_project.accounts.managers import DeliciousAppUserManager
 from delicious_project.common.validators import contain_only_letters_validator
 
@@ -21,11 +19,11 @@ class DeliciousAppUser(AbstractBaseUser, PermissionsMixin):
     )
 
     date_joined = models.DateTimeField(
-        auto_now_add=True,
+        auto_now_add=True,  # auto_now_add ne promenq stoinostta si
     )
 
     last_login = models.DateTimeField(
-        auto_now=True,
+        auto_now=True,  # promenq stoinostta si
     )
 
     is_staff = models.BooleanField(
@@ -35,15 +33,6 @@ class DeliciousAppUser(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(
         default=True,
     )
-
-    def confirm_email(self, *args, **kwargs):
-        send_mail(
-            '{}'.format(args[0]),
-            '{}'.format(args[1]),
-            settings.EMAIL_HOST_USER,
-            [self.email],
-            fail_silently=False,
-        )
 
     objects = DeliciousAppUserManager()
 
@@ -103,7 +92,6 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
-
 
     def delete(self, *args, **kwargs):
         self.user.delete()
