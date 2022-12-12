@@ -53,11 +53,6 @@
     margin: -54px 0 0 97px;
 }
 
-.u-section-1 .u-text-3 {
-    font-style: italic;
-    margin: 39px 2px 0 0;
-}
-
 .u-section-1 .u-btn-1 {
     border-style: none none solid;
     text-transform: uppercase;
@@ -85,6 +80,7 @@
 .u-section-1 .u-container-layout-4 {
     padding: 0;
 }
+
 
 .u-section-1 .u-btn-2 {
     border-style: none none solid;
@@ -114,6 +110,36 @@
     padding: 0;
 }
 
+
+.u-section-1 .u-btn-3 {
+    text-transform: uppercase;
+    font-size: 1rem;
+    letter-spacing: normal;
+    border-style: none none solid;
+    margin: 26px auto 0 0;
+    padding: 0;
+}
+
+.u-section-1 .u-list-item-3 {
+    background-image: none;
+}
+
+.u-section-1 .u-container-layout-5 {
+    padding: 30px;
+}
+
+.u-section-1 .u-group-3 {
+    width: 80px;
+    min-height: 80px;
+    background-size: auto;
+    margin: 0 auto 0 0;
+}
+
+.u-section-1 .u-container-layout-6 {
+    padding: 0;
+}
+
+
 .u-section-1 .u-btn-3 {
     text-transform: uppercase;
     font-size: 1rem;
@@ -171,33 +197,6 @@
     padding: 0;
 }
 
-.u-section-1 .u-btn-3 {
-    text-transform: uppercase;
-    font-size: 1rem;
-    letter-spacing: normal;
-    border-style: none none solid;
-    margin: 26px auto 0 0;
-    padding: 0;
-}
-
-.u-section-1 .u-list-item-3 {
-    background-image: none;
-}
-
-.u-section-1 .u-container-layout-5 {
-    padding: 30px;
-}
-
-.u-section-1 .u-group-3 {
-    width: 80px;
-    min-height: 80px;
-    background-size: auto;
-    margin: 0 auto 0 0;
-}
-
-.u-section-1 .u-container-layout-6 {
-    padding: 0;
-}
 
 .u-section-1 .u-btn-3 {
     text-transform: uppercase;
@@ -228,11 +227,6 @@
         margin-top: -362px;
         margin-left: calc(((100% - 940px) / 2));
     }
-
-    .u-section-1 .u-text-3 {
-        margin-right: 0;
-    }
-
 }
 
 @media (max-width: 991px) {
@@ -250,7 +244,6 @@
     .u-section-1 .u-repeater-1 {
         grid-template-columns: calc(50% - 15px) calc(50% - 15px);
     }
-
 }
 
 @media (max-width: 767px) {
@@ -305,6 +298,7 @@
         font-size: 2.25rem;
     }
 
+
 }
 
 
@@ -346,6 +340,42 @@
 }
 
 .u-section-2 .u-input-1 {
+    font-style: italic;
+}
+
+.u-section-2 .u-form-group-2 {
+    margin-left: 0;
+}
+
+.u-section-2 .u-input-2 {
+    font-style: italic;
+}
+
+.u-section-2 .u-form-group-3 {
+    margin-left: 0;
+}
+
+.u-section-2 .u-input-3 {
+    font-style: italic;
+}
+
+.u-section-2 .u-form-group-4 {
+    margin-left: 0;
+}
+
+.u-section-2 .u-input-4 {
+    font-style: italic;
+}
+
+.u-section-2 .u-input-5 {
+    font-style: italic;
+}
+
+.u-section-2 .u-form-group-6 {
+    margin-left: 0;
+}
+
+.u-section-2 .u-input-6 {
     font-style: italic;
 }
 

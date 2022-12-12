@@ -15,19 +15,19 @@
                     <div class="u-layout-row">
                         <div class="u-align-left u-container-style u-layout-cell u-left-cell u-size-22 u-layout-cell-1">
                             <div class="u-container-layout u-container-layout-1">
-                                <h2 class="u-text u-text-1"> {{ recipe.title }}</h2>
-                                <p class="u-text-11 u-text-2"></p>
-                                <p class="u-text-11 u-text-3"><b>Category:</b> {{ recipe.category }}</p>
-                                <p class="u-text-11 u-text-4"><b>Preparation time:</b> {{ recipe.preparation_time }}
+                                <h2 class="u-text"> {{ recipe.title }}</h2>
+                                <p class="u-text-11 "><b>Category:</b> {{ recipe.category }}</p>
+                                <p class="u-text-11 "><b>Preparation time:</b> {{ recipe.preparation_time }}
                                     minutes<br>
                                 </p>
-                                <p class="u-text-11 u-text-5"><b>Cooking time:</b> {{ recipe.cooking_time }} minutes<br>
+                                <p class="u-text-11"><b>Cooking time:</b> {{ recipe.cooking_time }} minutes<br>
                                 </p>
-                                <p class="u-text-11 u-text-6"><b>Total time:</b> {{ recipe.total_cooking_time }} minutes
+                                <p class="u-text-11"><b>Total time:</b> {{ recipe.total_cooking_time }} minutes
                                 </p>
-                                <p class="u-text-11 u-text-6"><b>Cooked:</b> {{ recipe.cooked_counter }} times
+                                <p class="u-text-11"><b>Cooked:</b> {{ recipe.cooked_counter }} times
                                 </p>
-                                <p class="u-text-11 u-text-7"><u>Ingredients:</u> {{ recipe.ingredients|linebreaksbr }}
+{#                                <br>#}
+                                <p class="u-text-11"><u>Ingredients:</u><br>{{ recipe.ingredients|linebreaksbr }}
                                 </p>
                             </div>
                         </div>
@@ -39,7 +39,7 @@
                                              data-image-width="800" data-image-height="533">
                                     </div>
                                 </div>
-                                <p class="u-text-11 u-text-8"><u>Directions:</u> {{ recipe.description }}</p>
+                                <p class="u-text-11"><u>Directions:</u><br>{{ recipe.description }}</p>
                                 {% if not is_anonymous %}
                                     {% if is_owner %}
                                         <a href="{% url 'edit recipe' recipe.pk %}"
