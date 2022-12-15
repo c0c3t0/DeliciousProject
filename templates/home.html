@@ -2,14 +2,16 @@
 {% load static %}
 
 {% block head %}
-    <link rel="stylesheet" href="{% static 'delicious/profilepage.css' %}" media="screen">
     <link rel="stylesheet" href="{% static 'delicious/home.css' %}" media="screen">
 {% endblock %}
 
 {% block content %}
+
     <section class="u-align-left u-clearfix u-color-scheme-u11 u-color-style-multicolor-1 u-image u-section-1"
              id="carousel_c8fc">
         <div class="u-clearfix u-sheet u-sheet-1">
+            {% include 'messages.html' %}
+
             <h1 class="u-text u-text-body-alt-color u-text-1"><b>
                 <span style="font-size: 4.5rem;">ВКУСОТЕРАПИЯ</span></b>
             </h1>
@@ -17,7 +19,7 @@
                 <span style="font-size: 2.20rem;">Поглези сетивата си!</span>
             </p>
 
-            <a href="{%  url 'all recipes' %}"
+            <a href="{% url 'all recipes' %}"
                class="u-active-none u-border-2 u-border-palette-1-base u-btn u-btn-rectangle u-button-style u-hover-none u-none u-btn-1">Напред</a>
         </div>
     </section>

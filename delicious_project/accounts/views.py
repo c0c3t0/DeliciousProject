@@ -48,6 +48,7 @@ class UserRegisterView(CreateView):
             )
             profile.save()
 
+            messages.success(request, 'An activation email has been sent. Please check your email.')
             return redirect('login')
 
         context = {
@@ -70,11 +71,11 @@ class ActivateAccount(View):
             user.is_email_verified = True
             user.save()
             login(request, user)
-            messages.success(request, ('Your account have been confirmed.'))
+            messages.success(request, 'Your account have been confirmed.')
             return redirect('home')
         else:
-            messages.warning(request, ('The confirmation link was invalid, '
-                                       'possibly because it has already been used.'))
+            messages.warning(request, 'The confirmation link was invalid, '
+                                      'possibly because it has already been used.')
             return redirect('home')
 
 
@@ -87,25 +88,20 @@ class UserLoginView(LoginView):
     form_class = LoginForm
     template_name = 'auth/login.html'
 
-    # def form_valid(self, form):
-    #     remember_me = form.cleaned_data.get('remember_me')
-    #
-    #     if not remember_me:
-    #         # set session expiry to 0 seconds. So it will automatically close the session after the browser is closed.
-    #         self.request.session.set_expiry(0)
-    #
-    #         # Set session as modified to force data updates/cookie to be saved.
-    #         self.request.session.modified = True
-    #
-    #     # else browser session will be as long as the session cookie time "SESSION_COOKIE_AGE" defined in settings.py
-    #     return super(CustomLoginView, self).form_valid(form)
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        context = {
+            'form': form,
+            'messages': messages.get_messages(request),
+        }
+        return render(request, self.template_name, context)
 
     def get_success_url(self):
         return reverse_lazy('home')
 
 
 class UserLogoutView(LogoutView):
-    template_name = 'auth/logout_page.html'
+    template_name = 'auth/logout.html'
     next_page = reverse_lazy('home')
 
 

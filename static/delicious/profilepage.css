@@ -8,7 +8,7 @@ header,
 main,
 menu,
 nav,
-section{
+section {
     display: block;
 }
 
@@ -317,7 +317,7 @@ a {
 .u-form {
     wight: 1000px;
     position: relative;
-    font-size: 19px;
+    font-size: 22px;
     height: auto !important;
 }
 
@@ -1674,7 +1674,7 @@ html {
 
 .u-body h1,
 .u-body h2,
-.u-body h5{
+.u-body h5 {
     padding: 0;
 }
 
@@ -2994,7 +2994,7 @@ a.u-button-style.u-border-2 {
 
 h1,
 h2,
-h5{
+h5 {
     font-family: Roboto, sans-serif;
 }
 
@@ -4439,8 +4439,9 @@ ul:not(.u-unstyled) {
 .u-overlap.u-overlap-transparent:not(.u-overlap-contrast) .u-header :not(.u-nav-item) > a,
 .u-gradient > .u-container-layout > a,
 .u-image:not(.u-shading) > .u-container-layout > a,
-a {
-    color: skyblue;
+:not(.u-nav-item) > a {
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    color: orange;
     text-decoration: underline;
     font-weight: bold;
 }
@@ -4448,8 +4449,9 @@ a {
 .u-overlap.u-overlap-transparent:not(.u-overlap-contrast) .u-header :not(.u-nav-item) > a:hover,
 .u-gradient > .u-container-layout > a:hover,
 .u-image:not(.u-shading) > .u-container-layout > a:hover,
-a:hover {
-    color: mediumblue;
+:not(.u-nav-item) > a:hover {
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    color: skyblue;
 }
 
 .u-header {
