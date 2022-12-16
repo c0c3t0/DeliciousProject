@@ -38,7 +38,6 @@ def confirm_email(user_pk):
     message = render_to_string('auth/confirm_email.html', {
         'user': user,
         'domain': os.environ.get('ALLOWED_HOSTS'),
-        'port': ':8000',
         'uid': urlsafe_base64_encode(force_bytes(user_pk)),
         'token': account_activation_token.make_token(user),
     })

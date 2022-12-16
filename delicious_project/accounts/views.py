@@ -1,16 +1,17 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordResetView, \
+    PasswordResetDoneView, PasswordResetCompleteView, PasswordResetConfirmView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from django.views import View
-from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, FormView
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 
 from delicious_project.accounts.forms import RegisterForm, LoginForm, ChangePasswordForm, EditProfileForm, \
-    ProfileDeleteForm
+    ProfileDeleteForm, MyPasswordResetConfirmForm
 from delicious_project.accounts.models import Profile
 from delicious_project.accounts.tokens import account_activation_token
 from delicious_project.delicious.models import Recipe
@@ -82,6 +83,26 @@ class ActivateAccount(View):
 class ChangeUserPasswordView(PasswordChangeView):
     form_class = ChangePasswordForm
     template_name = 'auth/change_password.html'
+
+
+class MyPasswordResetView(PasswordResetView):
+    template_name = 'auth/password_reset.html'
+    email_template_name = 'auth/password_reset_email.html'
+    success_url = reverse_lazy('password reset done')
+
+
+class MyPasswordResetDoneView(PasswordResetDoneView):
+    template_name = 'auth/password_reset_done.html'
+
+
+class MyPasswordResetConfirmView(PasswordResetConfirmView):
+    form_class = MyPasswordResetConfirmForm
+    template_name = 'auth/password_reset_confirm.html'
+    success_url = reverse_lazy("password reset complete")
+
+
+class MyPasswordResetCompleteView(PasswordResetCompleteView):
+    template_name = 'auth/password_reset_complete.html'
 
 
 class UserLoginView(LoginView):

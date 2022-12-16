@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm, SetPasswordForm
 
 from django import forms
 from django.core.validators import MinLengthValidator
@@ -187,6 +187,30 @@ class ChangePasswordForm(PasswordChangeForm):
         self.fields['new_password1'].widget.attrs['placeholder'] = 'New password'
         self.fields['new_password2'].widget.attrs['placeholder'] = 'Repeat password'
 
+class MyPasswordResetConfirmForm(SetPasswordForm):
+    new_password1 = forms.CharField(
+        label="New password",
+        widget=forms.PasswordInput(
+            attrs={
+                "autocomplete": "new-password"
+            }
+        ),
+    )
+
+    new_password2 = forms.CharField(
+        label="Repeat password",
+        widget=forms.PasswordInput(
+            attrs={
+                "autocomplete": "new-password"
+            }
+        ),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['new_password1'].widget.attrs['placeholder'] = 'New password'
+        self.fields['new_password2'].widget.attrs['placeholder'] = 'Repeat password'
 
 class EditProfileForm(forms.ModelForm):
     date_of_birth = forms.DateField(
