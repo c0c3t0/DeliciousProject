@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordResetView, \
-    PasswordResetDoneView, PasswordResetCompleteView, PasswordResetConfirmView
+    PasswordResetConfirmView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils.encoding import force_str
@@ -84,25 +84,32 @@ class ChangeUserPasswordView(PasswordChangeView):
     form_class = ChangePasswordForm
     template_name = 'auth/change_password.html'
 
+    def get_success_url(self):
+        messages.success(self.request,
+                         'Your password has been changed successfully.')
+        return reverse_lazy('home')
+
 
 class MyPasswordResetView(PasswordResetView):
     template_name = 'auth/password_reset.html'
     email_template_name = 'auth/password_reset_email.html'
-    success_url = reverse_lazy('password reset done')
 
-
-class MyPasswordResetDoneView(PasswordResetDoneView):
-    template_name = 'auth/password_reset_done.html'
+    def get_success_url(self):
+        messages.success(self.request,
+                         'We\'ve emailed you instructions for setting your password. '
+                         'If you don\'t receive an email, please make sure you\'ve entered the address you registered with, '
+                         'and check your spam folder.')
+        return reverse_lazy('home')
 
 
 class MyPasswordResetConfirmView(PasswordResetConfirmView):
     form_class = MyPasswordResetConfirmForm
     template_name = 'auth/password_reset_confirm.html'
-    success_url = reverse_lazy("password reset complete")
 
-
-class MyPasswordResetCompleteView(PasswordResetCompleteView):
-    template_name = 'auth/password_reset_complete.html'
+    def get_success_url(self):
+        messages.success(self.request,
+                         'Your password has been set.')
+        return reverse_lazy('login')
 
 
 class UserLoginView(LoginView):
@@ -157,6 +164,7 @@ class ProfileEditView(LoginRequiredMixin, UpdateView):
     template_name = 'profile/profile_edit.html'
 
     def get_success_url(self):
+        messages.success(self.request, 'Profile updated successfully!')
         profile_id = self.kwargs['pk']
         return reverse_lazy('profile details', kwargs={'pk': profile_id})
 
@@ -165,4 +173,7 @@ class ProfileDeleteView(LoginRequiredMixin, CreateView, DeleteView):
     model = Profile
     form_class = ProfileDeleteForm
     template_name = 'profile/profile_delete.html'
-    success_url = reverse_lazy('home')
+
+    def get_success_url(self):
+        messages.success(self.request, 'Profile deleted successfully!')
+        return reverse_lazy('home')

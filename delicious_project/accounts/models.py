@@ -93,10 +93,6 @@ class Profile(models.Model):
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
-    def delete(self, *args, **kwargs):
-        self.user.delete()
-        return super(self.__class__, self).delete(*args, **kwargs)
-
     @property
     def full_name(self):
         return f"{self.first_name} {self.last_name}"

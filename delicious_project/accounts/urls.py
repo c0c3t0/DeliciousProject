@@ -3,7 +3,7 @@ from django.views.generic import RedirectView
 
 from delicious_project.accounts.views import UserRegisterView, UserLoginView, UserLogoutView, ChangeUserPasswordView, \
     ProfileDetailsView, ProfileEditView, ProfileDeleteView, ActivateAccount, MyPasswordResetView, \
-    MyPasswordResetConfirmView, MyPasswordResetDoneView, MyPasswordResetCompleteView
+    MyPasswordResetConfirmView
 from delicious_project.delicious.views.comments import AddCommentView
 
 urlpatterns = [
@@ -16,10 +16,7 @@ urlpatterns = [
     path('password-change-done/', RedirectView.as_view(url=reverse_lazy('home')), name='password_change_done'),
 
     path('reset-password/', MyPasswordResetView.as_view(), name='reset password'),
-    path('reset-password-done/', MyPasswordResetDoneView.as_view(), name='password reset done'),
-
     path('reset/<uidb64>/<token>/', MyPasswordResetConfirmView.as_view(), name='password reset confirm'),
-    path('reset-password-complete/', MyPasswordResetCompleteView.as_view(), name='password reset complete'),
 
     path('profile/<int:pk>/', ProfileDetailsView.as_view(), name='profile details'),
     path('edit-profile/<int:pk>/', ProfileEditView.as_view(), name='edit profile'),

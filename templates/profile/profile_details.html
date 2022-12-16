@@ -11,8 +11,11 @@
             <div class="u-clearfix u-expanded-width u-gutter-30 u-layout-wrap u-layout-wrap-1">
                 <div class="u-layout">
                     <div class="u-layout-row">
+
                         <div class="u-align-left u-container-style u-layout-cell u-left-cell u-size-22 u-layout-cell-1">
                             <div class="u-container-layout u-container-layout-1">
+                                {% include 'messages.html' %}
+
                                 <h2 class="u-text"> {{ profile.full_name }} </h2>
                                 {% if profile.date_of_birth %}
                                     <p class="u-text-11">
@@ -21,13 +24,13 @@
                                 {% endif %}
                                 <p class="u-text-11"><b>Gender:</b> {{ profile.gender }}
                                 </p>
-                                <p class="u-text-11">
+                                <p class="u-text-11"><b>Own: </b>
                                     <a href="{% url 'user recipes' request.user.pk %}">
-                                        <b>Own: </b>{{ user_recipes_counter }} recipes</a>,
+                                        {{ user_recipes_counter }} recipes</a>,
                                     cooked {{ user_recipes_total_cooks }} times </p>
-                                <p class="u-text-11">
+                                <p class="u-text-11"><b>Cooked:</b>
                                     <a href="{% url 'user cooked recipes' request.user.pk %}">
-                                        <b>Cooked:</b> {{ cooked_recipes_by_user }} recipes</a>
+                                        {{ cooked_recipes_by_user }} recipes</a>
                                 </p>
                                 {% if is_owner %}
                                     <a href="{% url 'edit profile' user.pk %}"
@@ -40,12 +43,19 @@
                             </div>
                         </div>
                         <div class="u-container-style u-layout-cell u-right-cell u-size-38 u-layout-cell-2">
-                            <div class="u-container-layout u-container-layout-2">
-                                <div class="u-container-style u-group u-image u-image-default u-image-tiles u-image-1">
-                                    <div class="u-container-layout u-container-layout-3">
-                                        <img src="{{ profile.picture }}" alt=""
-                                             class="u-image u-image-default u-image-2"
-                                             data-image-width="800" data-image-height="533">
+                            <div class="">
+                                <div class="u-group u-image-1">
+                                    <div>
+                                        {% if profile.picture %}
+                                            <img src="{{ profile.picture }}" alt="Profile picture"
+                                                 class="u-image u-image-default u-image-2"
+                                            >
+                                        {% else %}
+                                            <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                                                 alt="Profile picture"
+                                                 class="u-image u-image-default u-image-2"
+                                            >
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>

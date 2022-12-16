@@ -589,7 +589,7 @@ section.u-image:not(.u-hover-box),
 
 .u-sheet {
     position: relative;
-    margin: 0 auto;
+    margin: -10px auto;
 }
 
 .u-xl-mode .u-sheet {

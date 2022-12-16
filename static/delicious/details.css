@@ -1,5 +1,7 @@
 .u-section-1 {
     background-image: none;
+    min-height: 1000px;
+
 }
 
 .u-section-1 .u-sheet-1 {
@@ -53,9 +55,9 @@
 }
 
 .u-section-1 .u-image-2 {
-    width: 643px;
-    height: 414px;
-    margin: -100px auto 0 -96px;
+    width: 700px;
+    height: 600px;
+    margin: -130px auto 0 -70px;
 }
 
 .u-section-1 .u-btn-2 {

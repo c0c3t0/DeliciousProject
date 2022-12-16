@@ -60,9 +60,9 @@ class RegisterForm(UserCreationForm):
             attrs={
                 'class': 'form-control',
                 'placeholder': 'Enter URL',
-                'required': False,
-                'blank': True,
-                'null': True,
+                # 'required': False,
+                # 'blank': True,
+                # 'null': True,
             }
         )
     )
@@ -214,6 +214,7 @@ class MyPasswordResetConfirmForm(SetPasswordForm):
 
 class EditProfileForm(forms.ModelForm):
     date_of_birth = forms.DateField(
+        required=False,
         widget=forms.DateInput(
             attrs={
                 'type': 'date',
