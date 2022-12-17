@@ -1,7 +1,7 @@
 from django import forms
 
 from delicious_project.common.helpers import DisabledFieldsFormMixin
-from delicious_project.delicious.models import Recipe
+from delicious_project.delicious.models import Recipe, Comment
 
 
 class CreateRecipeForm(forms.ModelForm):
@@ -82,6 +82,19 @@ class DeleteRecipeForm(DisabledFieldsFormMixin, forms.ModelForm):
             'description': forms.Textarea(
                 attrs={
                     'rows': 5,
+                }
+            ),
+        }
+class AddCommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('text',)
+        labels = {'text': ''}
+        widgets = {
+            'text': forms.Textarea(
+                attrs={
+                    'rows': 3,
+                    'placeholder': 'Add your comment',
                 }
             ),
         }

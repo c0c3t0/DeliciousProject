@@ -1,11 +1,13 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView, ListView
+from django.views.generic.edit import FormMixin
 
-from delicious_project.delicious.forms import CreateRecipeForm, EditRecipeForm, DeleteRecipeForm
-from delicious_project.delicious.models import Recipe
+from delicious_project.delicious.forms import CreateRecipeForm, EditRecipeForm, DeleteRecipeForm, AddCommentForm
+from delicious_project.delicious.models import Recipe, Comment
 
 
 class UserRecipesView(LoginRequiredMixin, ListView):
@@ -67,16 +69,42 @@ class EditRecipeView(LoginRequiredMixin, UpdateView):
         return reverse_lazy('details recipe', kwargs={'pk': recipe_id})
 
 
-class DetailRecipeView(DetailView):
+class DetailRecipeView(FormMixin, DetailView):
     model = Recipe
     template_name = 'delicious/recipe_details.html'
+    form_class = AddCommentForm
     context_object_name = 'recipe'
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            messages.error(request, "Something went wrong")
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        recipe = Recipe.objects.get(pk=self.kwargs['pk'])
+        comment = Comment(
+            text=form.cleaned_data['text'],
+            recipe=recipe,
+            user=self.request.user,
+        )
+        comment.save()
+        messages.success(self.request, 'Your comment have been posted successfully!')
+
+        return redirect('details recipe', recipe.pk)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        recipe = Recipe.objects.get(pk=self.kwargs['pk'])
+        context['recipe'] = recipe
+        comments_count = len(recipe.comment_set.all())
 
         context['is_owner'] = self.object.user == self.request.user
         context['is_anonymous'] = not self.request.user.is_authenticated
+        context['comments'] = recipe.comment_set.all()
+        context.update({'comments_count': comments_count,})
 
         return context
 

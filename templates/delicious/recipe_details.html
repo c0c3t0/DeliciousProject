@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% load calculate_years %}
+{% load get_name %}
 {% load static %}
 
 {% block head %}
-    <link rel="stylesheet" href="{% static 'delicious/base.css' %}" media="screen">
     <link rel="stylesheet" href="{% static 'delicious/details.css' %}" media="screen">
 {% endblock %}
 
@@ -26,7 +26,6 @@
                                 </p>
                                 <p class="u-text-11"><b>Cooked:</b> {{ recipe.cooked_counter }} times
                                 </p>
-{#                                <br>#}
                                 <p class="u-text-11"><u>Ingredients:</u><br>{{ recipe.ingredients|linebreaksbr }}
                                 </p>
                             </div>
@@ -50,15 +49,11 @@
                                     {% else %}
                                         {% if request.user in recipe.cooked.all %}
                                             <a href="{% url 'cooked' recipe.pk %}"
-                                               class="u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-1-base u-radius-50 u-btn-2">Cooked</a>
+                                               class="u-border-2 u-border-palette-1-base u-btn u-btn-3">&#10003; Cooked</a>
                                         {% else %}
                                             <a href="{% url 'cooked' recipe.pk %}"
-                                               class="u-border-2 u-border-hover-palette-1-base u-border-palette-1-base u-btn u-btn-round u-button-style
-                                   u-hover-palette-1-base u-none u-radius-50 u-btn-3">Cook It</a>
+                                               class="u-border-2 u-border-palette-1-base u-btn u-btn-3">&#10005; Not Cooked</a>
                                         {% endif %}
-                                        <a href="{% url 'add comment' recipe.pk %}"
-                                           class="u-border-2 u-border-hover-palette-1-base u-border-palette-1-base u-btn u-btn-round u-button-style
-                                   u-hover-palette-1-base u-none u-radius-50 u-btn-3">comment</a>
                                     {% endif %}
                                 {% endif %}
 
@@ -69,24 +64,52 @@
             </div>
         </div>
     </section>
-    {#    <section id="app">#}
-    {#        <div class="container">#}
-    {#            <div class="row">#}
-    {#                <div class="col-6">#}
-    {#                    <div class="comment">#}
-    {#                        <p v-for="items in item" v-text="items"></p>#}
-    {#                    </div><!--End Comment-->#}
-    {#                </div><!--End col -->#}
-    {#            </div><!-- End row -->#}
-    {#            <div class="row">#}
-    {#                <div class="col-6">#}
-    {#                    <textarea type="text" class="input" placeholder="Write a comment" v-model="newItem"#}
-    {#                              @keyup.enter="addItem()"></textarea>#}
-    {#                    <button v-on:click="addItem()" class='primaryContained float-right' type="submit">Add Comment#}
-    {#                    </button>#}
-    {#                </div><!-- End col -->#}
-    {#            </div><!--End Row -->#}
-    {#        </div><!--End Container -->#}
-    {#    </section><!-- end App -->#}
+    <section class="u-clearfix u-palette-5-dark-3 u-section-1" id="carousel_ce76">
+        <div class="u-clearfix u-sheet u-sheet-1">
+            <div class="u-clearfix u-expanded-width u-gutter-30 u-layout-wrap u-layout-wrap-1">
+                <div class="u-layout">
+                    <div class="col-md-10 offset-md-1 col-lg-10 offset-lg-1">
+                        <div class="title-box-d">
+                            <h5 class="title-d">Comments ({{ comments_count }})</h5>
+                        </div>
+                        <div class="items-container">
+                            {% if request.user.is_authenticated %}
+                                <div class="box">
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        {{ form }}
+                                        <p>
+                                            <button style="margin-top:8px; margin-bottom:8px"
+                                                    class="btn btn-b btn-sm"
+                                                    type="submit">Comment
+                                            </button>
+                                        </p>
+                                    </form>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="box-comments">
+                            <ul class="list-comments">
+                                {% if comments %}
+                                    {% for comment in comments %}
+                                        <ol class="u-border-2 u-border-palette-1-base">
+                                            <div class="comment-details">
+                                                <h5 class="comment-author"><b>{{ comment.user.email|get_name }}
+                                                    says:</b></h5>
+                                                <p class="comment-description"
+                                                   style="color: orange">{{ comment.text }}</p>
+                                                <h6><b>Published on:</b> {{ comment.published_on }}</h6>
+                                            </div>
+                                        </ol>
+                                        <br>
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}
 

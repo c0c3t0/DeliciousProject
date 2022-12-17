@@ -239,15 +239,3 @@ class ProfileDeleteForm(DisabledFieldsFormMixin, forms.ModelForm):
         exclude = ('user',)
 
 
-class AddCommentForm(forms.ModelForm):
-    class Meta:
-        model = Comment
-        fields = ('text',)
-        labels = {'text': ''}
-        widgets = {
-            'text': forms.TextInput(
-                attrs={
-                    'placeholder': 'Your comment',
-                }
-            ),
-        }

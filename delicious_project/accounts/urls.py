@@ -4,7 +4,7 @@ from django.views.generic import RedirectView
 from delicious_project.accounts.views import UserRegisterView, UserLoginView, UserLogoutView, ChangeUserPasswordView, \
     ProfileDetailsView, ProfileEditView, ProfileDeleteView, ActivateAccount, MyPasswordResetView, \
     MyPasswordResetConfirmView
-from delicious_project.delicious.views.comments import AddCommentView
+# from delicious_project.delicious.views.comments import AddCommentView
 
 urlpatterns = [
 

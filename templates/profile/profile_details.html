@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load calculate_years %}
 {% load static %}
+
 {% block head %}
     <link rel="stylesheet" href="{% static 'delicious/details.css' %}" media="screen">
 {% endblock %}
@@ -11,7 +12,6 @@
             <div class="u-clearfix u-expanded-width u-gutter-30 u-layout-wrap u-layout-wrap-1">
                 <div class="u-layout">
                     <div class="u-layout-row">
-
                         <div class="u-align-left u-container-style u-layout-cell u-left-cell u-size-22 u-layout-cell-1">
                             <div class="u-container-layout u-container-layout-1">
                                 {% include 'messages.html' %}
@@ -34,11 +34,10 @@
                                 </p>
                                 {% if is_owner %}
                                     <a href="{% url 'edit profile' user.pk %}"
-                                       class="u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-1-base u-radius-50 u-btn-2">Edit</a>
+                                       class="u-border-2 u-border-palette-1-base u-btn u-btn-3">Edit</a>
 
                                     <a href="{% url 'delete profile' user.pk %}"
-                                       class="u-border-2 u-border-hover-palette-1-base u-border-palette-1-base u-btn u-btn-round u-button-style
-                                   u-hover-palette-1-base u-none u-radius-50 u-btn-3">Delete</a>
+                                       class="u-border-2 u-border-palette-1-base u-btn u-btn-3">Delete</a>
                                 {% endif %}
                             </div>
                         </div>

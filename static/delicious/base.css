@@ -3438,21 +3438,24 @@ a.u-link.u-hover-grey-80:hover {
 .u-border-palette-1-base,
 .u-separator-palette-1-base:after {
     border-color: #478ac9;
-    stroke: #478ac9;
+}
+.u-border-palette-1-base:hover,
+.u-separator-palette-1-base:after {
+    border-color: orange;
 }
 
-.u-button-style.u-border-palette-1-base {
-    border-color: #478ac9 !important;
-    color: #478ac9 !important;
-    background-color: transparent !important;
-}
+/*.u-button-style.u-border-palette-1-base {*/
+/*    border-color: #478ac9 !important;*/
+/*    color: #478ac9 !important;*/
+/*    background-color: transparent !important;*/
+/*}*/
 
-.u-button-style.u-border-palette-1-base:hover,
-.u-button-style.u-border-palette-1-base:focus {
-    border-color: transparent !important;
-    color: #387cbd !important;
-    background-color: transparent !important;
-}
+/*.u-button-style.u-border-palette-1-base:hover,*/
+/*.u-button-style.u-border-palette-1-base:focus {*/
+/*    border-color: transparent !important;*/
+/*    color: #387cbd !important;*/
+/*    background-color: transparent !important;*/
+/*}*/
 
 .u-border-grey-dark-3,
 .u-separator-grey-dark-3:after {
