@@ -17,11 +17,10 @@ class CreateRecipeForm(forms.ModelForm):
 
     def save(self, commit=True):
         recipe = super().save(commit=False)
-
         recipe.user = self.user
+
         if commit:
             recipe.save()
-
         return recipe
 
     class Meta:
