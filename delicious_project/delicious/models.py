@@ -115,6 +115,7 @@ class Comment(models.Model):
         Recipe,
         on_delete=models.CASCADE,
     )
+
     user = models.ForeignKey(
         UserModel,
         on_delete=models.CASCADE,

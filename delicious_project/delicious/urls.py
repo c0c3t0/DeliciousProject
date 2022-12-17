@@ -18,11 +18,10 @@ urlpatterns = [
                   path('add-recipe/', CreateRecipeView.as_view(), name='add recipe'),
                   path('my-recipes/<int:pk>/', UserRecipesView.as_view(), name='user recipes'),
                   path('my-cooked-recipes/<int:pk>/', UserCookedRecipesView.as_view(), name='user cooked recipes'),
+
                   path('edit/<int:pk>/', EditRecipeView.as_view(), name='edit recipe'),
                   path('details/<int:pk>/', DetailRecipeView.as_view(), name='details recipe'),
                   path('delete/<int:pk>/', DeleteRecipeView.as_view(), name='delete recipe'),
                   path('photo/cooked/<int:pk>', cooked_recipe, name='cooked'),
-
-                  # path('comment/<int:pk>/', AddCommentView.as_view(), name='add comment')
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

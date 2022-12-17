@@ -56,6 +56,7 @@ class CreateRecipeView(LoginRequiredMixin, CreateView):
         return kwargs
 
     def get_success_url(self, **kwargs):
+        messages.success(self.request, 'Recipe has been added successfully!')
         return reverse_lazy('details recipe', kwargs={'pk': self.object.id})
 
 
@@ -66,6 +67,7 @@ class EditRecipeView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         recipe_id = self.kwargs['pk']
+        messages.success(self.request, 'Recipe has been updated successfully!')
         return reverse_lazy('details recipe', kwargs={'pk': recipe_id})
 
 
@@ -80,7 +82,6 @@ class DetailRecipeView(FormMixin, DetailView):
         if form.is_valid():
             return self.form_valid(form)
         else:
-            messages.error(request, "Something went wrong")
             return self.form_invalid(form)
 
     def form_valid(self, form):
@@ -91,13 +92,14 @@ class DetailRecipeView(FormMixin, DetailView):
             user=self.request.user,
         )
         comment.save()
-        messages.success(self.request, 'Your comment have been posted successfully!')
+        messages.success(self.request, 'Comment has been posted successfully!')
 
         return redirect('details recipe', recipe.pk)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         recipe = Recipe.objects.get(pk=self.kwargs['pk'])
+
         context['recipe'] = recipe
         comments_count = len(recipe.comment_set.all())
 
