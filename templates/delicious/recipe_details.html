@@ -15,18 +15,15 @@
                     <div class="u-layout-row">
                         <div class="u-align-left u-container-style u-layout-cell u-left-cell u-size-22 u-layout-cell-1">
                             <div class="u-container-layout u-container-layout-1">
-                                <h2 class="u-text"> {{ recipe.title }}</h2>
-                                <p class="u-text-11 "><b>Category:</b> {{ recipe.category }}</p>
-                                <p class="u-text-11 "><b>Preparation time:</b> {{ recipe.preparation_time }}
-                                    minutes<br>
-                                </p>
-                                <p class="u-text-11"><b>Cooking time:</b> {{ recipe.cooking_time }} minutes<br>
-                                </p>
-                                <p class="u-text-11"><b>Total time:</b> {{ recipe.total_cooking_time }} minutes
-                                </p>
-                                <p class="u-text-11"><b>Cooked:</b> {{ recipe.cooked_counter }} times
-                                </p>
-                                <p class="u-text-11"><u>Ingredients:</u><br>{{ recipe.ingredients|linebreaksbr }}
+                                {% include 'messages.html' %}
+                                <h2 class="u-text" style="color: orange"><i>{{ recipe.title }}</i></h2>
+                                <p class="u-text-11 "><b>Recipe by:</b> {{ recipe.user.email|get_name }}</p>
+                                <p class="u-text-11 "><b>Preparation time:</b> {{ recipe.preparation_time }} minutes</p>
+                                <p class="u-text-11"><b>Cooking time:</b> {{ recipe.cooking_time }} minutes </p>
+                                <p class="u-text-11"><b>Total time:</b> {{ recipe.total_cooking_time }} minutes </p>
+                                <p class="u-text-11"><b>Cooked:</b> {{ recipe.cooked_counter }} times </p>
+                                <p class="u-text-11"><u
+                                        style="color: orange">Ingredients:</u><br>{{ recipe.ingredients|linebreaksbr }}
                                 </p>
                             </div>
                         </div>
@@ -38,7 +35,8 @@
                                              data-image-width="800" data-image-height="533">
                                     </div>
                                 </div>
-                                <p class="u-text-11"><u>Directions:</u><br>{{ recipe.description }}</p>
+                                <p class="u-text-11"><u
+                                        style="color: orange">Directions:</u><br>{{ recipe.description }}</p>
                                 {% if not is_anonymous %}
                                     {% if is_owner %}
                                         <a href="{% url 'edit recipe' recipe.pk %}"
@@ -49,14 +47,15 @@
                                     {% else %}
                                         {% if request.user in recipe.cooked.all %}
                                             <a href="{% url 'cooked' recipe.pk %}"
-                                               class="u-border-2 u-border-palette-1-base u-btn u-btn-3">&#10003; Cooked</a>
+                                               class="u-border-2 u-border-palette-1-base u-btn u-btn-3">&#10003;
+                                                Cooked</a>
                                         {% else %}
                                             <a href="{% url 'cooked' recipe.pk %}"
-                                               class="u-border-2 u-border-palette-1-base u-btn u-btn-3">&#10005; Not Cooked</a>
+                                               class="u-border-2 u-border-palette-1-base u-btn u-btn-3">&#10005; Not
+                                                Cooked</a>
                                         {% endif %}
                                     {% endif %}
                                 {% endif %}
-
                             </div>
                         </div>
                     </div>
@@ -64,52 +63,6 @@
             </div>
         </div>
     </section>
-    <section class="u-clearfix u-palette-5-dark-3 u-section-1" id="carousel_ce76">
-        <div class="u-clearfix u-sheet u-sheet-1">
-            <div class="u-clearfix u-expanded-width u-gutter-30 u-layout-wrap u-layout-wrap-1">
-                <div class="u-layout">
-                    <div class="col-md-10 offset-md-1 col-lg-10 offset-lg-1">
-                        <div class="title-box-d">
-                            <h5 class="title-d">Comments ({{ comments_count }})</h5>
-                        </div>
-                        <div class="items-container">
-                            {% if request.user.is_authenticated %}
-                                <div class="box">
-                                    <form method="post">
-                                        {% csrf_token %}
-                                        {{ form }}
-                                        <p>
-                                            <button style="margin-top:8px; margin-bottom:8px"
-                                                    class="btn btn-b btn-sm"
-                                                    type="submit">Comment
-                                            </button>
-                                        </p>
-                                    </form>
-                                </div>
-                            {% endif %}
-                        </div>
-                        <div class="box-comments">
-                            <ul class="list-comments">
-                                {% if comments %}
-                                    {% for comment in comments %}
-                                        <ol class="u-border-2 u-border-palette-1-base">
-                                            <div class="comment-details">
-                                                <h5 class="comment-author"><b>{{ comment.user.email|get_name }}
-                                                    says:</b></h5>
-                                                <p class="comment-description"
-                                                   style="color: orange">{{ comment.text }}</p>
-                                                <h6><b>Published on:</b> {{ comment.published_on }}</h6>
-                                            </div>
-                                        </ol>
-                                        <br>
-                                    {% endfor %}
-                                {% endif %}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    {% include 'delicious/recipe_comment.html' %}
 {% endblock %}
 
