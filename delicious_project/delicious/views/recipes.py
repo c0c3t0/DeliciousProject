@@ -88,14 +88,13 @@ class DeleteRecipeView(LoginRequiredMixin, CreateView, DeleteView):
 
 def cooked_recipe(request, pk):
     recipe = Recipe.objects.get(pk=pk)
-    recipe = get_object_or_404(Recipe, id=recipe.pk)
 
     if request.user in recipe.cooked.all():
         recipe.cooked.remove(request.user)
     else:
         recipe.cooked.add(request.user)
 
-    return HttpResponseRedirect(reverse('details recipe', args=[str(pk)]))
+    return redirect('details recipe', pk)
 
 
 class UserRecipesView(LoginRequiredMixin, ListView):
@@ -109,7 +108,6 @@ class UserRecipesView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        #     context['is_owner'] = self.object.user == self.request.user
         recipes = list(Recipe.objects.filter(user_id=self.request.user))
 
         context.update({
