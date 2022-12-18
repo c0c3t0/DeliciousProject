@@ -24,14 +24,6 @@ class UserRegisterView(CreateView):
     template_name = 'auth/register.html'
     success_url = reverse_lazy('login')
 
-    def get(self, request, *args, **kwargs):
-        form = self.form_class()
-        context = {
-            'form': form,
-            'messages': messages.get_messages(request),
-        }
-        return render(request, self.template_name, context)
-
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
@@ -107,22 +99,15 @@ class MyPasswordResetConfirmView(PasswordResetConfirmView):
     template_name = 'auth/password_reset_confirm.html'
 
     def get_success_url(self):
+        login(self.request, self.user)
         messages.success(self.request,
                          'Your password has been set.')
-        return reverse_lazy('login')
+        return reverse_lazy('home')
 
 
 class UserLoginView(LoginView):
     form_class = LoginForm
     template_name = 'auth/login.html'
-
-    def get(self, request, *args, **kwargs):
-        form = self.form_class()
-        context = {
-            'form': form,
-            'messages': messages.get_messages(request),
-        }
-        return render(request, self.template_name, context)
 
     def get_success_url(self):
         return reverse_lazy('home')
