@@ -45,13 +45,9 @@ class RegisterForm(UserCreationForm):
 
     gender = forms.CharField(
         max_length=max(len(x) for x, _ in Profile.GENDERS),
+        initial='Do not show',
         widget=forms.Select(
             choices=Profile.GENDERS,
-            attrs={
-                'class': 'form-control',
-                'placeholder': 'Gender',
-                # 'default': 'Do not show',
-            }
         )
     )
     picture = forms.URLField(

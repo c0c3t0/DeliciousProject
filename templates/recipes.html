@@ -7,25 +7,25 @@
 
 {% block content %}
     <section class="u-align-center u-clearfix u-section-1">
-    <p> {% include 'messages.html' %}</p>
-        <h2 class="u-text-1">All Recipes</h2>
+        <p> {% include 'messages.html' %}</p>
+        <h2 class="u-text-1">{{ template_name|capfirst }}</h2>
         <div class="u-list u-list-1">
             <div class="u-repeater u-repeater-1">
                 {% for recipe in page_obj %}
                     <div class="u-container-style u-palette-5-dark-3 u-container-layout u-container-layout-1 ">
-                            <div class="u-opacity-20 u-palette-5-dark-1 u-radius-50 u-group-1">
-                                <div class="u-container-layout">
-                                </div>
+                        <div class="u-opacity-20 u-palette-5-dark-1 u-radius-50 u-group-1">
+                            <div class="u-container-layout">
                             </div>
-                            <h5 class="u-text-2">
-                                <a href="{% url 'details recipe' recipe.pk %}"><u>{{ recipe.title|title }}</u></a>
-                            </h5>
-                            <p>{{ recipe.total_cooking_time }} minutes</p>
-                            <p>{{ recipe.description|truncatechars:50 }}</p>
-                            <p>
-                                <a href="{% url 'category slug' slug=recipe.category.slug %}">{{ recipe.category }}</a>
-                            </p>
                         </div>
+                        <h5 class="u-text-2">
+                            <a href="{% url 'details recipe' recipe.pk %}"><u>{{ recipe.title|title }}</u></a>
+                        </h5>
+                        <p>{{ recipe.total_cooking_time }} minutes</p>
+                        <p>{{ recipe.description|truncatechars:80 }}</p>
+                        <p>
+                            <a href="{% url 'category slug' slug=recipe.category.slug %}">{{ recipe.category }}</a>
+                        </p>
+                    </div>
                 {% endfor %}
             </div>
         </div>

@@ -6,32 +6,28 @@
 {% endblock %}
 
 {% block content %}
-    <section class="u-align-center u-black u-clearfix u-section-1" id="carousel_5e71">
-        <img class="u-expand-resize u-expanded-width u-image u-image-1"
-             src="{% static 'delicious/images/categories.jpg' %}" alt="">
+    <section class="u-align-center u-clearfix u-section-1">
+        <p> {% include 'messages.html' %}</p>
+        <h2 class="u-text-1">Categories</h2>
         <div class="u-list u-list-1">
             <div class="u-repeater u-repeater-1">
-                {% for category in categories %}
-                    <div class="u-align-left u-container-style u-list-item u-palette-5-dark-3 u-repeater-item u-shape-rectangle u-list-item-1">
-                        <div class="u-container-layout u-similar-container u-valign-top u-container-layout-1">
-                            <div class="u-align-center u-container-style u-group u-opacity u-opacity-20 u-palette-5-dark-1 u-radius-50 u-shape-round u-group-1">
-                                <div class="u-container-layout u-valign-middle u-container-layout-2">
-                                    <h1 class="u-custom-font u-text u-text-1"></h1>
-                                </div>
+                {% for category in page_obj %}
+                    <div class="u-container-style u-palette-5-dark-3 u-container-layout u-container-layout-1 ">
+                        <div class="u-opacity-20 u-palette-5-dark-1 u-radius-50 u-group-1">
+                            <div class="u-container-layout">
                             </div>
-                            <h5 class="u-text u-text-body-alt-color u-text-2">
-                                <a href="{% url 'category slug' slug=category.slug %}"><u>{{ category }}</u></a>
-                            </h5>
-                            <p class="u-text u-text-grey-30 u-text-3"></p>
-                            <p class="u-text u-text-grey-30 u-text-3"></p>
-                            <p class="u-text u-text-grey-30 u-text-3"></p>
-                            <p class="u-text u-text-grey-30 u-text-3">
-                                <a href="{% url 'category slug' slug=category.slug %}">Show Recipes</a>
-                            </p>
                         </div>
+                        <h5 class="u-text-2">
+                            <a href="{% url 'category slug' slug=category.slug %}"><u>{{ category }}</u></a>
+                        </h5>
+
+                        <p>
+                            <a href="{% url 'category slug' slug=category.slug %}">Show Recipes</a>
+                        </p>
                     </div>
                 {% endfor %}
             </div>
         </div>
+        {% include 'paginator.html' %}
     </section>
 {% endblock %}

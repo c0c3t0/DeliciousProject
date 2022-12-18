@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block head %}
     <link rel="stylesheet" href="{% static 'delicious/main.css' %}" media="screen">
 {% endblock %}
@@ -15,7 +16,7 @@
                         <form action="{% url 'delete recipe' recipe.pk %}" method="POST">
                             {% csrf_token %}
                             {{ form.as_p }}
-                            <button type="submit" class="btn btn-primary">Delete</button>
+                            <button type="submit">Delete</button>
                             <a href="javascript:history.back()">No, go back</a>
                         </form>
                     </div>
