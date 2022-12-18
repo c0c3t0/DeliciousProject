@@ -21,25 +21,29 @@ class ShowAllRecipesView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=None, **kwargs)
         context['recipes'] = Recipe.objects.all()
+        context['template_name'] = 'All Recipes'
         return context
 
 
 class ShowCategoryView(ListView):
+    paginate_by = 9
     model = Category
     template_name = 'categories.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=None, **kwargs)
-        context['categories'] = context['category_list']
+        context['page_obj'] = context['category_list']
         return context
 
 
 class ShowRecipesByCategoryView(ListView):
+    paginate_by = 6
     model = Recipe
     template_name = 'recipes.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=None, **kwargs)
         slug = self.kwargs['slug']
-        context['recipes'] = Recipe.objects.filter(category__slug=slug)
+        context['page_obj'] = Recipe.objects.filter(category__slug=slug)
+        context['template_name'] = slug
         return context

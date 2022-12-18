@@ -50,6 +50,17 @@ class DetailRecipeView(FormMixin, DetailView):
         return context
 
 
+def cooked_recipe(request, pk):
+    recipe = Recipe.objects.get(pk=pk)
+
+    if request.user in recipe.cooked.all():
+        recipe.cooked.remove(request.user)
+    else:
+        recipe.cooked.add(request.user)
+
+    return redirect('details recipe', pk)
+
+
 class CreateRecipeView(LoginRequiredMixin, CreateView):
     model = Recipe
     form_class = CreateRecipeForm
@@ -86,17 +97,6 @@ class DeleteRecipeView(LoginRequiredMixin, CreateView, DeleteView):
         return reverse_lazy('all recipes')
 
 
-def cooked_recipe(request, pk):
-    recipe = Recipe.objects.get(pk=pk)
-
-    if request.user in recipe.cooked.all():
-        recipe.cooked.remove(request.user)
-    else:
-        recipe.cooked.add(request.user)
-
-    return redirect('details recipe', pk)
-
-
 class UserRecipesView(LoginRequiredMixin, ListView):
     paginate_by = 6
     model = Recipe
@@ -111,12 +111,14 @@ class UserRecipesView(LoginRequiredMixin, ListView):
         recipes = list(Recipe.objects.filter(user_id=self.request.user))
 
         context.update({
+            'title': 'My Recipes',
             'recipes': recipes,
         })
         return context
 
 
 class UserCookedRecipesView(LoginRequiredMixin, ListView):
+    paginate_by = 6
     model = Recipe
     template_name = 'delicious/user_recipes.html'
 
@@ -129,6 +131,7 @@ class UserCookedRecipesView(LoginRequiredMixin, ListView):
         recipes = list(Recipe.objects.filter(cooked=self.request.user))
 
         context.update({
+            'title': 'Cooked Recipes',
             'recipes': recipes,
         })
         return context

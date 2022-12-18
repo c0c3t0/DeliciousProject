@@ -1,34 +1,25 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
-from django.utils.translation import gettext_lazy as _
 
 UserModel = get_user_model()
 
 
 class Category(models.Model):
-    TITLE_MAX_LEN = 20
+    BREAKFAST = 'Breakfast'
+    LUNCH = 'Lunch'
+    DINNER = 'Dinner'
+    DESSERTS = 'Dessert'
+    APPETIZERS = 'Appetizers'
+    DRINKS = 'Drinks'
+    UNCATEGORIZED = 'Uncategorized'
 
-    class Title(models.TextChoices):
-        BREAKFAST = 'Breakfast', _('Breakfast')
-        LUNCH = 'Lunch', _('Lunch')
-        DINNER = 'Dinner', _('Dinner')
-        DESSERTS = 'Dessert', _('Dessert')
-        APPETIZERS = 'Appetizers', _('Appetizers')
-        DRINKS = 'Drinks', _('Drinks')
-        UNCATEGORIZED = 'Uncategorized', _('Uncategorized')
-
-        # DISH_TYPES = [(x, x) for x in (BREAKFAST, LUNCH, DINNER, DESSERTS, APPETIZERS, DRINKS, UNCATEGORIZED)]
-
-    # title = models.CharField(
-    #     max_length=max(len(x) for x, _ in DISH_TYPES),
-    #     choices=DISH_TYPES,
-    # )
+    TYPES = [(x, x) for x in (BREAKFAST, LUNCH, DINNER, DESSERTS, APPETIZERS, DRINKS, UNCATEGORIZED)]
 
     title = models.CharField(
-        max_length=TITLE_MAX_LEN,
-        choices=Title.choices,
-        default=Title.UNCATEGORIZED,
+        max_length=max(len(x) for x, _ in TYPES),
+        choices=TYPES,
+        default=UNCATEGORIZED,
     )
 
     slug = models.SlugField(
