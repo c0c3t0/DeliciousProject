@@ -1,5 +1,3 @@
-from django.contrib import messages
-from django.shortcuts import render
 from django.views.generic import TemplateView, ListView
 
 from delicious_project.delicious.models import Recipe, Category
@@ -7,11 +5,7 @@ from delicious_project.delicious.models import Recipe, Category
 
 class HomeView(TemplateView):
     template_name = 'home.html'
-    def get(self, request, *args, **kwargs):
-        context = {
-            'messages': messages.get_messages(request),
-        }
-        return render(request, self.template_name, context)
+
 
 class ShowAllRecipesView(ListView):
     paginate_by = 6

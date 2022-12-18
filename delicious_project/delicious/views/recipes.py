@@ -1,8 +1,8 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse_lazy, reverse
+from django.core.paginator import Paginator
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView, ListView
 from django.views.generic.edit import FormMixin
 
@@ -40,12 +40,17 @@ class DetailRecipeView(FormMixin, DetailView):
         recipe = Recipe.objects.get(pk=self.kwargs['pk'])
 
         context['recipe'] = recipe
+
+        comments_list = recipe.comment_set.all()
+        paginator = Paginator(comments_list, 5)
+        page = self.request.GET.get('page')
+
         comments_count = len(recipe.comment_set.all())
 
         context['is_owner'] = self.object.user == self.request.user
         context['is_anonymous'] = not self.request.user.is_authenticated
-        context['comments'] = recipe.comment_set.all()
-        context.update({'comments_count': comments_count, })
+        context['page_obj'] = paginator.get_page(page)
+        context.update({'comments_count': comments_count,})
 
         return context
 

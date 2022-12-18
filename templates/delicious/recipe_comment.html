@@ -30,8 +30,8 @@
                     </div>
                     <div class="box-comments">
                         <ul class="list-comments">
-                            {% if comments %}
-                                {% for comment in comments %}
+                            {% if page_obj %}
+                                {% for comment in page_obj %}
                                     <ol class="u-border-2 u-border-palette-1-base">
                                         <div class="comment-details">
                                             <h5 class="comment-author"><b>{{ comment.user.email|get_name }}
@@ -46,6 +46,7 @@
                             {% endif %}
                         </ul>
                     </div>
+                {% include 'paginator.html' %}
                 </div>
             </div>
         </div>

@@ -31,8 +31,15 @@
                             <div class="u-container-layout u-container-layout-2">
                                 <div class="u-container-style u-group u-image u-image-default u-image-tiles u-image-1">
                                     <div class="u-container-layout u-container-layout-3">
-                                        <img src="{{ recipe.picture }}" alt="" class="u-image u-image-default u-image-2"
-                                             data-image-width="800" data-image-height="533">
+                                        {% if recipe.picture %}
+                                            <img src="{{ recipe.picture }}" alt="recipe photo"
+                                                 class="u-image u-image-default u-image-2"
+                                                 data-image-width="800" data-image-height="533">
+                                        {% else %}
+                                            <img src="https://res.cloudinary.com/grohealth/image/upload/f_auto,fl_lossy,q_auto/v1583749915/DCUK/Content/iStock-879690980.jpg"
+                                                 alt="no image" class="u-image u-image-default u-image-2"
+                                                 data-image-width="800" data-image-height="533">
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <p class="u-text-11"><u
@@ -40,10 +47,9 @@
                                 {% if not is_anonymous %}
                                     {% if is_owner %}
                                         <a href="{% url 'edit recipe' recipe.pk %}"
-                                           class="u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-1-base u-radius-50 u-btn-2">Edit</a>
+                                           class="u-border-2 u-border-palette-1-base u-btn u-btn-3">Edit</a>
                                         <a href="{% url 'delete recipe' recipe.pk %}"
-                                           class="u-border-2 u-border-hover-palette-1-base u-border-palette-1-base u-btn u-btn-round u-button-style
-                                   u-hover-palette-1-base u-none u-radius-50 u-btn-3">Delete</a>
+                                           class="u-border-2 u-border-palette-1-base u-btn u-btn-3">Delete</a>
                                     {% else %}
                                         {% if request.user in recipe.cooked.all %}
                                             <a href="{% url 'cooked' recipe.pk %}"
