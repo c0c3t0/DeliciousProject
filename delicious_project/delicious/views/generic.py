@@ -14,6 +14,7 @@ class HomeView(TemplateView):
         return render(request, self.template_name, context)
 
 class ShowAllRecipesView(ListView):
+    paginate_by = 6
     model = Recipe
     template_name = 'recipes.html'
 

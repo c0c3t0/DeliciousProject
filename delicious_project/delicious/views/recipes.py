@@ -10,33 +10,6 @@ from delicious_project.delicious.forms import CreateRecipeForm, EditRecipeForm, 
 from delicious_project.delicious.models import Recipe, Comment
 
 
-class CreateRecipeView(LoginRequiredMixin, CreateView):
-    model = Recipe
-    form_class = CreateRecipeForm
-    template_name = 'delicious/create_recipe.html'
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user
-        return kwargs
-
-
-    def get_success_url(self, **kwargs):
-        messages.success(self.request, 'Recipe has been added successfully!')
-        return reverse_lazy('details recipe', kwargs={'pk': self.object.id})
-
-
-class EditRecipeView(LoginRequiredMixin, UpdateView):
-    model = Recipe
-    form_class = EditRecipeForm
-    template_name = 'delicious/recipe_edit.html'
-
-    def get_success_url(self):
-        recipe_id = self.kwargs['pk']
-        messages.success(self.request, 'Recipe has been updated successfully!')
-        return reverse_lazy('details recipe', kwargs={'pk': recipe_id})
-
-
 class DetailRecipeView(FormMixin, DetailView):
     model = Recipe
     template_name = 'delicious/recipe_details.html'
@@ -77,12 +50,39 @@ class DetailRecipeView(FormMixin, DetailView):
         return context
 
 
+class CreateRecipeView(LoginRequiredMixin, CreateView):
+    model = Recipe
+    form_class = CreateRecipeForm
+    template_name = 'delicious/create_recipe.html'
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def get_success_url(self, **kwargs):
+        messages.success(self.request, 'Recipe has been added successfully!')
+        return reverse_lazy('details recipe', kwargs={'pk': self.object.id})
+
+
+class EditRecipeView(LoginRequiredMixin, UpdateView):
+    model = Recipe
+    form_class = EditRecipeForm
+    template_name = 'delicious/recipe_edit.html'
+
+    def get_success_url(self):
+        recipe_id = self.kwargs['pk']
+        messages.success(self.request, 'Recipe has been updated successfully!')
+        return reverse_lazy('details recipe', kwargs={'pk': recipe_id})
+
+
 class DeleteRecipeView(LoginRequiredMixin, CreateView, DeleteView):
     model = Recipe
     form_class = DeleteRecipeForm
     template_name = 'delicious/recipe_delete.html'
 
     def get_success_url(self):
+        messages.success(self.request, 'Recipe has been deleted successfully!')
         return reverse_lazy('all recipes')
 
 
@@ -99,6 +99,7 @@ def cooked_recipe(request, pk):
 
 
 class UserRecipesView(LoginRequiredMixin, ListView):
+    paginate_by = 6
     model = Recipe
     template_name = 'delicious/user_recipes.html'
 
