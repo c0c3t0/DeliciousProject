@@ -2,53 +2,35 @@
 {% load get_name %}
 {% load static %}
 
-<section class="u-clearfix u-palette-5-dark-3 u-section-1" id="carousel_ce76">
-    <div class="u-clearfix u-sheet u-sheet-1">
-        <div class="u-clearfix u-expanded-width u-gutter-30 u-layout-wrap u-layout-wrap-1">
-            <div class="u-layout">
-                <div class="col-md-10 offset-md-1 col-lg-10 offset-lg-1">
-                    <div class="title-box-d">
-                        <h3 class="title-d" style="color: orange">Comments ({{ comments_count }})</h3>
-                    </div>
-                    <div class="items-container">
-                        {% if request.user.is_authenticated %}
-                            <div class="box">
-
-                                <form method="post">
-                                    {% csrf_token %}
-                                    {{ form }}
-
-                                    <p>
-                                        <button style="margin-top:8px; margin-bottom:8px"
-                                                class="btn btn-b btn-sm"
-                                                type="submit">Comment
-                                        </button>
-                                    </p>
-                                </form>
-                            </div>
-                        {% endif %}
-                    </div>
-                    <div class="box-comments">
-                        <ul class="list-comments">
-                            {% if page_obj %}
-                                {% for comment in page_obj %}
-                                    <ol class="u-border-2 u-border-palette-1-base">
-                                        <div class="comment-details">
-                                            <h5 class="comment-author"><b>{{ comment.user.email|get_name }}
-                                                says:</b></h5>
-                                            <p class="comment-description"
-                                               style="color: orange">{{ comment.text }}</p>
-                                            <h6><b>Published on:</b> {{ comment.published_on }}</h6>
-                                        </div>
-                                    </ol>
-                                    <br>
-                                {% endfor %}
-                            {% endif %}
-                        </ul>
-                    </div>
-                {% include 'paginator.html' %}
+<section class="u-clearfix u-palette-5-dark-3 u-section-1">
+    <div class="u-sheet u-sheet-1">
+        <div class="u-layout-wrap u-layout-wrap-1">
+            <h3 style="color: orange">Comments ({{ comments_count }})</h3>
+            {% if request.user.is_authenticated %}
+                <div>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form }}
+                        <p>
+                            <button style="margin-top:8px; margin-bottom:8px" type="submit">Comment</button>
+                        </p>
+                    </form>
                 </div>
-            </div>
+            {% endif %}
+        </div>
+        {% include 'paginator.html' %}
+        <div>
+            {% if page_obj %}
+                {% for comment in page_obj %}
+                    <ol class="u-border-2 u-border-palette-1-base">
+                        <div>
+                            <h5><b>{{ comment.user.email|get_name }} says:</b></h5>
+                            <p style="color: orange">{{ comment.text }}</p>
+                            <h6><b>Published on:</b> {{ comment.published_on }}</h6>
+                        </div>
+                    </ol>
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 </section>

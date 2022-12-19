@@ -8,62 +8,53 @@
 {% endblock %}
 
 {% block content %}
-    <section class="u-clearfix u-palette-5-dark-3 u-section-1" id="carousel_ce76">
-        <div class="u-clearfix u-sheet u-sheet-1">
-            <div class="u-clearfix u-expanded-width u-gutter-30 u-layout-wrap u-layout-wrap-1">
-                <div class="u-layout">
-                    <div class="u-layout-row">
-                        <div class="u-align-left u-container-style u-layout-cell u-left-cell u-size-22 u-layout-cell-1">
-                            <div class="u-container-layout u-container-layout-1">
-                                {% include 'messages.html' %}
-                                <h2 class="u-text" style="color: orange"><i>{{ recipe.title }}</i></h2>
-                                <p class="u-text-11 "><b>Recipe by:</b> {{ recipe.user.email|get_name }}</p>
-                                <p class="u-text-11 "><b>Preparation time:</b> {{ recipe.preparation_time }} minutes</p>
-                                <p class="u-text-11"><b>Cooking time:</b> {{ recipe.cooking_time }} minutes </p>
-                                <p class="u-text-11"><b>Total time:</b> {{ recipe.total_cooking_time }} minutes </p>
-                                <p class="u-text-11"><b>Cooked:</b> {{ recipe.cooked_counter }} times </p>
-                                <p class="u-text-11"><u
-                                        style="color: orange">Ingredients:</u><br>{{ recipe.ingredients|linebreaksbr }}
-                                </p>
-                            </div>
+    <section class="u-clearfix u-palette-5-dark-3 u-section-1">
+        <div class="u-sheet u-sheet-1">
+            <div class="u-layout-wrap-1">
+                <div class="u-layout-row">
+                    <div class="u-size-22">
+                        <div>
+                            {% include 'messages.html' %}
+                            <h2 class="u-text" style="color: orange"><i>{{ recipe.title }}</i></h2>
+                            <p class="u-text-11"><b>Recipe by:</b> {{ recipe.user.email|get_name }}</p>
+                            <p class="u-text-11"><b>Preparation time:</b> {{ recipe.preparation_time }} minutes</p>
+                            <p class="u-text-11"><b>Cooking time:</b> {{ recipe.cooking_time }} minutes </p>
+                            <p class="u-text-11"><b>Total time:</b> {{ recipe.total_cooking_time }} minutes </p>
+                            <p class="u-text-11"><b>Cooked:</b> {{ recipe.cooked_counter }} times </p>
+                            <p class="u-text-11">
+                                <u style="color: orange">Ingredients:</u><br>{{ recipe.ingredients|linebreaksbr }}
+                            </p>
                         </div>
-                        <div class="u-container-style u-layout-cell u-right-cell u-size-38 u-layout-cell-2">
-                            <div class="u-container-layout u-container-layout-2">
-                                <div class="u-container-style u-group u-image u-image-default u-image-tiles u-image-1">
-                                    <div class="u-container-layout u-container-layout-3">
-                                        {% if recipe.picture %}
-                                            <img src="{{ recipe.picture }}" alt="recipe photo"
-                                                 class="u-image u-image-default u-image-2"
-                                                 data-image-width="800" data-image-height="533">
-                                        {% else %}
-                                            <img src="https://res.cloudinary.com/grohealth/image/upload/f_auto,fl_lossy,q_auto/v1583749915/DCUK/Content/iStock-879690980.jpg"
-                                                 alt="no image" class="u-image u-image-default u-image-2"
-                                                 data-image-width="800" data-image-height="533">
-                                        {% endif %}
-                                    </div>
-                                </div>
-                                <p class="u-text-11"><u
-                                        style="color: orange">Directions:</u><br>{{ recipe.description }}</p>
-                                {% if not is_anonymous %}
-                                    {% if is_owner %}
-                                        <a href="{% url 'edit recipe' recipe.pk %}"
-                                           class="u-border-2 u-border-palette-1-base u-btn u-btn-3">Edit</a>
-                                        <a href="{% url 'delete recipe' recipe.pk %}"
-                                           class="u-border-2 u-border-palette-1-base u-btn u-btn-3">Delete</a>
-                                    {% else %}
-                                        {% if request.user in recipe.cooked.all %}
-                                            <a href="{% url 'cooked' recipe.pk %}"
-                                               class="u-border-2 u-border-palette-1-base u-btn u-btn-3">&#10003;
-                                                Cooked</a>
-                                        {% else %}
-                                            <a href="{% url 'cooked' recipe.pk %}"
-                                               class="u-border-2 u-border-palette-1-base u-btn u-btn-3">&#10005; Not
-                                                Cooked</a>
-                                        {% endif %}
-                                    {% endif %}
+                    </div>
+                    <div class="u-size-38">
+                        <div class="u-image-1">
+                            <div>
+                                {% if recipe.picture %}
+                                    <img class="u-image u-image-2" src="{{ recipe.picture }}" alt="recipe photo">
+                                {% else %}
+                                    <img src="https://res.cloudinary.com/grohealth/image/upload/f_auto,fl_lossy,q_auto/v1583749915/DCUK/Content/iStock-879690980.jpg"
+                                         alt="no image" class="u-image u-image-2">
                                 {% endif %}
                             </div>
                         </div>
+                        <p class="u-text-11">
+                            <u style="color: orange">Directions:</u><br>{{ recipe.description }}</p>
+                        {% if not is_anonymous %}
+                            {% if is_owner %}
+                                <a href="{% url 'edit recipe' recipe.pk %}"
+                                   class="u-border-2 u-border-palette-1-base u-btn u-btn-3">Edit</a>
+                                <a href="{% url 'delete recipe' recipe.pk %}"
+                                   class="u-border-2 u-border-palette-1-base u-btn u-btn-3">Delete</a>
+                            {% else %}
+                                {% if request.user in recipe.cooked.all %}
+                                    <a href="{% url 'cooked' recipe.pk %}"
+                                       class="u-border-2 u-border-palette-1-base u-btn u-btn-3">&#10003; Cooked</a>
+                                {% else %}
+                                    <a href="{% url 'cooked' recipe.pk %}"
+                                       class="u-border-2 u-border-palette-1-base u-btn u-btn-3">&#10005; Cooked</a>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
                     </div>
                 </div>
             </div>
