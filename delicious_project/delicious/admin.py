@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from delicious_project.delicious.models import Recipe, Category, Comment
+from delicious_project.delicious.models import Recipe, Category, Comment, Rating
 
 
 @admin.register(Category)
@@ -17,3 +17,8 @@ class RecipeAdmin(admin.ModelAdmin):
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('text', 'published_on', 'user', 'recipe')
+
+
+@admin.register(Rating)
+class RatingAdmin(admin.ModelAdmin):
+    list_display = ('user', 'recipe', 'rating')
