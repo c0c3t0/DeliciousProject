@@ -1,13 +1,13 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView, ListView
 from django.views.generic.edit import FormMixin
 
 from delicious_project.delicious.forms import CreateRecipeForm, EditRecipeForm, DeleteRecipeForm, AddCommentForm
-from delicious_project.delicious.models import Recipe, Comment
+from delicious_project.delicious.models import Recipe, Comment, Rating
 
 
 class DetailRecipeView(FormMixin, DetailView):
@@ -39,7 +39,9 @@ class DetailRecipeView(FormMixin, DetailView):
         context = super().get_context_data(**kwargs)
         recipe = Recipe.objects.get(pk=self.kwargs['pk'])
 
-        context['recipe'] = recipe
+
+        rating = Rating.objects.filter(recipe=recipe, user=self.request.user).first()
+        recipe.user_rating = rating.rating if rating else 0
 
         comments_list = recipe.comment_set.all()
         paginator = Paginator(comments_list, 5)
@@ -47,9 +49,14 @@ class DetailRecipeView(FormMixin, DetailView):
 
         comments_count = len(recipe.comment_set.all())
 
+
+        context['recipe'] = recipe
         context['is_owner'] = self.object.user == self.request.user
         context['is_anonymous'] = not self.request.user.is_authenticated
         context['page_obj'] = paginator.get_page(page)
+        context['rating'] = recipe.user_rating
+        context['average'] = recipe.average_rating
+        context['rate_count'] = recipe.rate_counter
         context.update({'comments_count': comments_count,})
 
         return context
@@ -65,6 +72,11 @@ def cooked_recipe(request, pk):
 
     return redirect('details recipe', pk)
 
+def rate(request, pk, rating):
+    recipe = Recipe.objects.get(pk=pk)
+    Rating.objects.filter(recipe=recipe, user=request.user).delete()
+    recipe.rating_set.create(user=request.user, rating=rating)
+    return render(request, 'delicious/recipe_details.html', {'recipe': recipe})
 
 class CreateRecipeView(LoginRequiredMixin, CreateView):
     model = Recipe

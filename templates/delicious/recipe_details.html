@@ -60,6 +60,11 @@
             </div>
         </div>
     </section>
-    {% include 'delicious/recipe_comment.html' %}
+    <section class="u-clearfix u-palette-5-dark-3 u-section-1">
+        <div class="u-sheet u-sheet-1">
+            {% include 'delicious/recipe_rating.html' %}
+            {% include 'delicious/recipe_comment.html' %}
+        </div>
+    </section>
 {% endblock %}
 

@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.db.models import Avg
 from django.urls import reverse
 
 UserModel = get_user_model()
@@ -89,6 +90,7 @@ class Recipe(models.Model):
     def __str__(self):
         return self.title
 
+
     @property
     def total_cooking_time(self):
         return self.preparation_time + self.cooking_time
@@ -96,6 +98,17 @@ class Recipe(models.Model):
     @property
     def cooked_counter(self):
         return self.cooked.all().count()
+
+    @property
+    def rate_counter(self):
+        return self.rating_set.all().count()
+
+    @property
+    def average_rating(self):
+        return Rating.objects.filter(recipe=self).aggregate(Avg("rating"))["rating__avg"] or 0
+
+
+
 
 
 
@@ -118,3 +131,19 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ('-published_on',)
+
+
+class Rating(models.Model):
+    user = models.ForeignKey(
+        UserModel,
+        on_delete=models.CASCADE,
+    )
+
+    recipe = models.ForeignKey(
+        Recipe,
+        on_delete=models.CASCADE,
+    )
+
+    rating = models.IntegerField(
+        default=0,
+    )

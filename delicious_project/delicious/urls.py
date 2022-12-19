@@ -2,7 +2,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 
-# from delicious_project.delicious.views.comments import AddCommentView
+from delicious_project.delicious import views
 from delicious_project.delicious.views.generic import HomeView, ShowAllRecipesView, ShowCategoryView, \
     ShowRecipesByCategoryView
 from delicious_project.delicious.views.recipes import CreateRecipeView, EditRecipeView, DetailRecipeView, \
@@ -21,6 +21,9 @@ urlpatterns = [
 
                   path('edit/<int:pk>/', EditRecipeView.as_view(), name='edit recipe'),
                   path('details/<int:pk>/', DetailRecipeView.as_view(), name='details recipe'),
+
+                  path('details/<int:pk>/rate/<int:rating>/', views.recipes.rate),
+
                   path('delete/<int:pk>/', DeleteRecipeView.as_view(), name='delete recipe'),
                   path('photo/cooked/<int:pk>', cooked_recipe, name='cooked'),
 
