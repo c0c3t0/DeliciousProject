@@ -1,18 +1,10 @@
 from django import forms
 
 from delicious_project.common.helpers import DisabledFieldsFormMixin
-from delicious_project.delicious.models import Recipe, Comment, Category
+from delicious_project.delicious.models import Recipe, Comment
 
 
 class CreateRecipeForm(forms.ModelForm):
-    category = forms.CharField(
-        max_length=max(len(x) for x, _ in Category.TYPES),
-        initial='Uncategorized',
-        widget=forms.Select(
-            choices=Category.TYPES,
-        )
-    )
-
     def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.user = user
