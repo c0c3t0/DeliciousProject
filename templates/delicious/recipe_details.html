@@ -60,11 +60,15 @@
             </div>
         </div>
     </section>
-    <section class="u-clearfix u-palette-5-dark-3 u-section-1">
-        <div class="u-sheet u-sheet-1">
-            {% include 'delicious/recipe_rating.html' %}
-            {% include 'delicious/recipe_comment.html' %}
-        </div>
-    </section>
+    {% if not is_anonymous %}
+        <section class="u-clearfix u-palette-5-dark-3 u-section-1">
+            <div class="u-sheet u-sheet-1">
+                {% if not is_owner %}
+                    {% include 'delicious/recipe_rating.html' %}
+                {% endif %}
+                {% include 'delicious/recipe_comment.html' %}
+            </div>
+        </section>
+    {% endif %}
 {% endblock %}
 
