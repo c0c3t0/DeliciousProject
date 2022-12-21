@@ -28,23 +28,21 @@
 </head>
 
 
-<body class="u-body u-overlap u-xl-mode">
+<body class="u-body u-xl-mode">
 
-<header class="u-clearfix u-custom-color-2 u-header" id="sec-484a">
-    <div class="u-clearfix u-sheet u-sheet-1">
-        <nav class="u-align-right u-menu u-menu-dropdown u-offcanvas u-menu-1">
-            <div class="u-nav-container u-backlink u-clearfix u-active-none u-hover-none u-none">
+<header class="u-clearfix u-custom-color-2 u-header">
+    <div class="u-sheet u-sheet-1">
+        <nav class=" u-menu u-menu-dropdown u-offcanvas u-menu-1">
+            <div class="u-nav-container u-backlink">
                 <div class="u-custom-menu u-nav-container">
-                    <ul class="u-nav u-spacing-30 u-unstyled u-nav-1">
+                    <ul class="u-nav u-unstyled u-nav-1">
                         <li class="u-nav-item"><a
-                                class="u-border-2 u-border-active-palette-1-base u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top
-                                u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-grey-90"
+                                class="
+                                u-button-style u-nav-link u-text-active-palette-1-base"
                                 href="{% url 'home' %}" style="padding: 20px;">Home</a>
                         </li>
-
-
                         <li class="u-nav-item"><a
-                                class="u-border-2 u-border-active-palette-1-base u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-grey-90"
+                                class="u-button-style u-nav-link u-text-active-palette-1-base"
                                 href="{% url 'all recipes' %}" style="padding: 20px;">All Recipes</a>
                             {% if user.is_authenticated %}
                                 <div class="u-nav-popup">
@@ -57,87 +55,73 @@
                                                                   href="{% url 'add recipe' %}">Add
                                             Recipe</a>
                                         </li>
-
-                                        <li class="u-nav-item"><a
-                                                class="u-button-style u-nav-link u-white">Favourites</a>
-                                        </li>
-
                                     </ul>
                                 </div>
                             {% endif %}
                         </li>
                         <li class="u-nav-item"><a
-                                class="u-border-2 u-border-active-palette-1-base u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-grey-90"
+                                class="u-button-style u-nav-link u-text-active-palette-1-base"
                                 style="padding: 20px;"
                                 href="{% url 'show category' %}">Categories</a>
                         </li>
                         {% if not user.is_authenticated %}
                             <li class="u-nav-item"><a
-                                    class="u-border-2 u-border-active-palette-1-base u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-grey-90"
+                                    class="u-button-style u-nav-link u-text-active-palette-1-base"
                                     href="{% url 'login' %}" style="padding: 20px;">Login</a>
                             </li>
                             <li class="u-nav-item"><a
-                                    class="u-border-2 u-border-active-palette-1-base
-                             u-border-hover-palette-1-base u-border-no-left
-                              u-border-no-right u-border-no-top u-button-style
-                               u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-grey-90"
+                                    class="u-button-style u-nav-link u-text-active-palette-1-base"
                                     href="{% url 'register' %}" style="padding: 20px 32px 20px 20px;">Register</a>
                             </li>
                         {% endif %}
                         {% if user.is_authenticated %}
                             <li class="u-nav-item"><a
-                                    class="u-border-2 u-border-active-palette-1-base u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-grey-90"
-                                    style="padding: 20px;" font
+                                    class="u-button-style u-nav-link u-text-active-palette-1-base"
+                                    style="padding: 20px;"
                                     href="{% url 'profile details' request.user.pk %}">Profile</a>
                                 <div class="u-nav-popup">
                                     <ul class="u-h-spacing-20 u-nav u-unstyled u-v-spacing-10">
-                                        <li class="u-nav-item"><a class="u-button-style u-nav-link u-white"
-                                                                  href="{% url 'change password' request.user.pk %}">Change
-                                            password</a>
+                                        <li class="u-nav-item">
+                                            <a class="u-button-style u-nav-link u-white"
+                                               href="{% url 'change password' request.user.pk %}">Change password</a>
                                         </li>
-                                        <li class="u-nav-item"><a class="u-button-style u-nav-link u-white"
-                                                                  href="{% url 'edit profile' request.user.pk %}">Edit
-                                            Profile</a>
+                                        <li class="u-nav-item">
+                                            <a class="u-button-style u-nav-link u-white"
+                                               href="{% url 'edit profile' request.user.pk %}">Edit Profile</a>
                                         </li>
-                                        <li class="u-nav-item"><a class="u-button-style u-nav-link u-white"
-                                                                  href="{% url 'delete profile' request.user.pk %}">Delete
-                                            Profile</a>
+                                        <li class="u-nav-item">
+                                            <a class="u-button-style u-nav-link u-white"
+                                               href="{% url 'delete profile' request.user.pk %}">Delete Profile</a>
                                         </li>
                                     </ul>
                                 </div>
                             </li>
 
                             <li class="u-nav-item"><a
-                                    class="u-border-2 u-border-active-palette-1-base u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-grey-90"
+                                    class="u-button-style u-nav-link u-text-active-palette-1-base"
                                     href="{% url 'logout' %}" style="padding: 20px;">Logout</a>
                             </li>
                         {% endif %}
-
                     </ul>
                 </div>
             </div>
         </nav>
         <a href="{% url 'home' %}" class="u-image u-logo u-image-1" data-image-width="1280"
            data-image-height="1280">
-            <img src="{% static 'delicious/images/logo.jpg' %}" alt=""
+            <img src="{% static 'delicious/images/logo.jpg' %}" alt="logo"
                  class="u-logo-image u-logo-image-1">
         </a>
-
     </div>
 </header>
 
 
 {% block content %}
-                {% include 'messages.html' %}
+    {% include 'messages.html' %}
 {% endblock %}
 
-<style class="u-overlap-style">{
-    background-color: #f8f8f6 !important
-}</style>
 <footer>
-    <section class="u-backlink u-clearfix u-grey-80 u-active-none u-hover-none u-none">
-        <p class="u-small-text u-text u-text-variant u-text-1">&copy; 2022 ВКУСОТЕРАПИЯ by Stoyanka
-            Stoichkova</p>
+    <section class="u-backlink u-grey-80">
+        <p class="u-small-text u-text-variant">2022 ВКУСОТЕРАПИЯ by Stoyanka Stoichkova</p>
     </section>
 </footer>
 </body>
